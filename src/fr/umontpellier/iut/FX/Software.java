@@ -18,7 +18,7 @@ public class Software {
     private static Select selectDest;
     private static int num;
 
-    public static void start() throws IOException {
+    public static void start() {
         window = new Window("chat");
 
         Div messageDisplay = new Div(10, 10, 460, 350);
@@ -37,11 +37,10 @@ public class Software {
         send.setLayoutY(enterMessage.getPosY() + enterMessage.getSizeY() + 10);
         send.setOnAction(actionEvent -> sendMessage(enterMessage.getText(), selectDest.getValue()));
 
-
         window.add(messageDisplay, enterMessage, selectDest, send, messages);
 
         /*try {
-            Client.main(null);
+            Client.starConnection();
         } catch (Exception e){
             messages.setText("SERVER NOT FOUND\nPlease start the server, then restart the application");
         }*/

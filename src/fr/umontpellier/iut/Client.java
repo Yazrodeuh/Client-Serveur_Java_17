@@ -18,23 +18,7 @@ public class Client extends Application {
     private static ObjectInputStream in;
 
     public static void main(String[] args) {
-
         launch();
-
-        try{
-            Socket client = new Socket("127.0.0.1", 4000);
-
-            send = new Send(client);
-
-            ExecutorService es = Executors.newFixedThreadPool(10);
-            es.execute(send);
-            es.execute(new Listen(client));
-
-        }catch (Exception e){
-            Software.getMessages().setText("SERVER NOT FOUND\nPlease start the server, then restart the application");
-            //System.out.println();
-        }
-
     }
 
     public static Send getSend() {
@@ -44,5 +28,21 @@ public class Client extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Software.start();
+
+        try {
+            Socket client;
+
+            client = new Socket("127.0.0.1", 4000);
+
+            send = new Send(client);
+
+            ExecutorService es = Executors.newFixedThreadPool(10);
+            es.execute(send);
+            es.execute(new Listen(client));
+        }catch (Exception e){
+            Software.getMessages().setText("SERVER NOT FOUND\nPlease start the server, then restart the application");
+        }
+
+
     }
 }
