@@ -1,13 +1,13 @@
 package fr.umontpellier.iut.FX;
 
 import fr.umontpellier.iut.Client;
-import fr.umontpellier.iut.FX.Elements.Div;
-import fr.umontpellier.iut.FX.Elements.Input;
-import fr.umontpellier.iut.FX.Elements.Select;
-import fr.umontpellier.iut.FX.Elements.Text;
+import fr.umontpellier.iut.FX.Elements.*;
 import fr.umontpellier.iut.Message;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.paint.Color;
+
+import javax.swing.*;
 
 public class Software {
 
@@ -19,14 +19,11 @@ public class Software {
     public static void start() {
         window = new Window("chat");
 
-        Div messageDisplay = new Div(10, 10, 460, 350);
-        messageDisplay.setStrokeWidth(3);
-        messageDisplay.setStroke(Color.BLACK);
-        messageDisplay.setFill(Color.WHITE);
+        Div messageDisplay = new Div();
 
-        Input enterMessage = new Input(messageDisplay.getPosX(), messageDisplay.getPosY() + messageDisplay.getSizeY() + 10, messageDisplay.getSizeX() - 110, 50);
+        Input enterMessage = new Input();
         //Input enterDest = new Input(enterMessage.getPosX() + enterMessage.getSizeX() + 10, enterMessage.getPosY(), 50, enterMessage.getSizeY());
-        selectDest = new Select(enterMessage.getPosX() + enterMessage.getSizeX() + 10, enterMessage.getPosY(), 90, enterMessage.getSizeY());
+        selectDest = new Select(window.getWidth() * 0.75, window.getHeight() * 0.3, window.getWidth() * 0.2, enterMessage.getSizeY());
         selectDest.getItems().add("Broadcast");
         selectDest.setValue("Broadcast");
 
@@ -35,7 +32,9 @@ public class Software {
         send.setLayoutY(enterMessage.getPosY() + enterMessage.getSizeY() + 10);
         send.setOnAction(actionEvent -> sendMessage(enterMessage.getText(), selectDest.getValue()));
 
-        window.add(messageDisplay, enterMessage, selectDest, send, messages);
+        ListClient clients = new ListClient();
+
+        window.add(messageDisplay, enterMessage, selectDest, send, messages, clients);
 
         /*try {
             Client.starConnection();

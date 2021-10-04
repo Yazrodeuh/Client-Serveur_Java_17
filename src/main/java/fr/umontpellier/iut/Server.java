@@ -13,12 +13,13 @@ public class Server {
 
         ServerSocket server = new ServerSocket(4000);
         System.out.println("SERVER STARTED");
+        ExecutorService es = Executors.newFixedThreadPool(10);
+
         try {
                 try {
                     while (true) {
                         Socket client = server.accept();
                         System.out.println("NEW CLIENT CONNECTED");
-                        ExecutorService es = Executors.newFixedThreadPool(10);
                         es.execute(new Connexion(client));
                     }
 

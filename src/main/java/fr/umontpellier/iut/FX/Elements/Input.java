@@ -1,10 +1,17 @@
 package fr.umontpellier.iut.FX.Elements;
 
+import fr.umontpellier.iut.FX.Software;
 import javafx.scene.control.TextField;
 
 public class Input extends TextField {
 
     double posX, posY, sizeX, sizeY;
+
+    public Input(){
+        setPosition(10, 20 + Software.window.getHeight() * 0.7);
+        setDimensions(Software.window.getWidth() * 0.6, Software.window.getHeight() * 0.1);
+    }
+
 
     public Input(double posX, double posY, double sizeX, double sizeY) {
         setPosition(posX,posY);

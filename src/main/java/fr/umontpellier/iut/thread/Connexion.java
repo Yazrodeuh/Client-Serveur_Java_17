@@ -3,6 +3,8 @@ package fr.umontpellier.iut.thread;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -10,25 +12,35 @@ public class Connexion implements Runnable{
 
     Socket socket;
 
-    private static final ArrayList<Socket> clients = new ArrayList<>();
+    private static final HashMap<Integer, Socket> clients = new HashMap<>();
 
     public Connexion(Socket socket) {
         this.socket = socket;
-        clients.add(socket);
+        clients.put(placeLibre(), socket);
     }
 
-    public static ArrayList<Socket> getClients() {
+    public static HashMap<Integer, Socket> getClients() {
         return clients;
     }
 
     @Override
     public void run() {
-        ExecutorService es = Executors.newFixedThreadPool(10);
+        ExecutorService es = Executors.newSingleThreadExecutor();
         try {
             es.execute(new ServerThread(socket));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
+
+    private int placeLibre(){
+        for (Map.Entry<Integer, Socket> client : clients.entrySet()){
+            if(client.getValue() == null){
+                return client.getKey();
+            }
+        }
+        return clients.size() + 1;
+    }
+
 }

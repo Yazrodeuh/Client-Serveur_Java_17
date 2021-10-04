@@ -1,14 +1,35 @@
 package fr.umontpellier.iut.FX.Elements;
 
+import fr.umontpellier.iut.FX.Software;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Div extends Rectangle {
 
     double posX, posY, sizeX, sizeY;
 
+    public Div(){
+        setPosition(10,10);
+        setDimensions(Software.window.getWidth() * 0.7,Software.window.getHeight() * 0.7);
+        setStrokeWidth(3);
+        setStroke(Color.BLACK);
+        setFill(Color.WHITE);
+    }
+
     public Div(double posX, double posY, double sizeX, double sizeY) {
+        this();
         setPosition(posX,posY);
         setDimensions(sizeX,sizeY);
+        setStrokeWidth(3);
+        setStroke(Color.BLACK);
+        setFill(Color.WHITE);
+    }
+
+    public Div(double posX, double posY, double sizeX, double sizeY, int strokeWidth, Color strokeColor, Color fillColor){
+        this(posX, posY, sizeX, sizeY);
+        setStrokeWidth(strokeWidth);
+        setStroke(strokeColor);
+        setFill(fillColor);
     }
 
     public double getPosX() {
