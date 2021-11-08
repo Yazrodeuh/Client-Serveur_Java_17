@@ -1,5 +1,9 @@
 package fr.android.projetJeux.network;
 
+import fr.android.projetJeux.game.Game;
+import fr.android.projetJeux.game.Player;
+import fr.android.projetJeux.game.Room;
+import fr.android.projetJeux.game.morpion.Morpion;
 import fr.umontpellier.iut.thread.ServerThread;
 import org.jetbrains.annotations.NotNull;
 
@@ -7,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
@@ -16,7 +21,9 @@ public class Connexion implements Runnable{
 
     private Socket socket;
 
-    private static final HashMap<String, Socket> clients = new HashMap<>();
+    private static final ArrayList<Player> players = new ArrayList<>();
+    private static final ArrayList<Player> waiting = new ArrayList<>();
+    private static final ArrayList<Room> rooms = new ArrayList<>();
     private ObjectOutputStream out;
     private ObjectInputStream in;
 
@@ -28,6 +35,17 @@ public class Connexion implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean playerExists(String pseudo) throws IOException {
+        for (Player p : players) {
+            if(Objects.equals(pseudo, p.getName())) {
+                out.writeObject("Le joueur existe");
+                return true;
+            }
+        }
+        out.writeObject("CONNECTED");
+        return false;
     }
 
 

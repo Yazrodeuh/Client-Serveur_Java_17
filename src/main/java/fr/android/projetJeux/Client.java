@@ -62,8 +62,7 @@ public class Client {
                 out.writeObject(SaisieClavier.saisieTerminal());
                 response = (String) in.readObject();
                 System.out.println(response);
-            } while (!response.equals("OK"));
-
+            } while (!response.equals("CONNECTED"));
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

@@ -28,7 +28,6 @@ public class Server {
                 try {
                     while (true) {
                         Socket client = server.accept();
-                        System.out.println("NEW CLIENT CONNECTED");
                         es.execute(new Connexion(client));
                     }
 
