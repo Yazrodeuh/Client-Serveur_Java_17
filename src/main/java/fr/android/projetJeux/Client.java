@@ -23,7 +23,7 @@ public class Client extends Application {
         try {
             Socket client = new Socket("127.0.0.1", 4000);
 
-            setIdentifiant();
+            setIdentifiant(client);
 
             ExecutorService es = Executors.newFixedThreadPool(10);
             es.execute(new Send(client));
@@ -38,11 +38,11 @@ public class Client extends Application {
     }
 
 
-    @Override
+    /*@Override
     public void start(Stage stage) {
 
 
-    }
+    }*/
 
 
     private boolean setIdentifiant(){

@@ -1,19 +1,13 @@
 package fr.umontpellier.iut.thread;
 
 
-import fr.android.projetJeux.reseaux.Connexion;
-import fr.umontpellier.iut.Message;
-import fr.umontpellier.iut.utils.OOS;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.util.ArrayList;
-
 public class ServerThread implements Runnable{
+    @Override
+    public void run() {
 
-    private final Socket socket;
+    }
+
+    /*private final Socket socket;
     private final ObjectInputStream in;
     private ObjectOutputStream out;
 
@@ -68,5 +62,5 @@ public class ServerThread implements Runnable{
             }
 
         }
-    }
+    }*/
 }
