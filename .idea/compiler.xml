@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="TD1" />
         <module name="untiled" />
+        <module name="Client-Server" />
       </profile>
     </annotationProcessing>
   </component>
