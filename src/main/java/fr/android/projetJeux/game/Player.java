@@ -22,6 +22,10 @@ public class Player {
         return name;
     }
 
+    public Socket getSocket() {
+        return socket;
+    }
+
     @Override
     public String toString() {
         return "Player{" +
