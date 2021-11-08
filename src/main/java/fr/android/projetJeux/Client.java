@@ -30,10 +30,11 @@ public class Client {
 
             setIdentifiant(client);
 
-            ExecutorService es = Executors.newFixedThreadPool(10);
+            /*ExecutorService es = Executors.newFixedThreadPool(10);
             es.execute(new Send(client));
-            es.execute(new Listen(client));
+            es.execute(new Listen(client));*/
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("SERVER NOT FOUND\nPlease start the server, then restart the application");
             //Software.getMessages().setText();
         }
@@ -69,7 +70,6 @@ public class Client {
         }
 
         return false;
-
 
     }
 

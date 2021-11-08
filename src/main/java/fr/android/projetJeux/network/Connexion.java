@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -32,25 +33,24 @@ public class Connexion implements Runnable{
 
     @Override
     public void run() {
+
+
         try {
-            String pseudo;
-            boolean exists = true;
-            while (exists) {
-                pseudo = (String) in.readObject();
-                if (!clients.containsKey(pseudo)) {
-                    exists = false;
-                    clients.put(pseudo,socket);
-                    out.writeObject("OK");
-                } else {
-                    out.writeObject(pseudo + " existe déjà !");
-                }
-            }
-
-            System.out.println(clients);
-
+            newPlayer();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        if (waiting.size() == 2){
+                rooms.add(
+                        new Room(
+                                new Morpion(
+                                        waiting.get(0),
+                                        waiting.get(1)
+                                )
+                        )
+                );
+            }
 
         //startConnexion();
 
@@ -70,8 +70,17 @@ public class Connexion implements Runnable{
     }
 
 
-    public static HashMap<String, Socket> getClients() {
-        return clients;
+    private void newPlayer() throws IOException, ClassNotFoundException {
+        String pseudo = "";
+        do {
+            pseudo = (String) in.readObject();
+        }while (playerExists(pseudo));
+
+        Player player = new Player(pseudo, socket);
+        players.add(player);
+        waiting.add(player);
+
+        out.writeObject("CONNECTED");
     }
 
 }
