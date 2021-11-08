@@ -1,6 +1,7 @@
 package fr.umontpellier.iut.thread;
 
 
+import fr.android.projetJeux.reseaux.Connexion;
 import fr.umontpellier.iut.Message;
 import fr.umontpellier.iut.utils.OOS;
 

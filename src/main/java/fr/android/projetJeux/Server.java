@@ -1,6 +1,6 @@
 package fr.android.projetJeux;
 
-import fr.umontpellier.iut.thread.Connexion;
+import fr.android.projetJeux.reseaux.Connexion;
 
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -1,4 +1,6 @@
-package fr.umontpellier.iut.thread;
+package fr.android.projetJeux.reseaux;
+
+import fr.umontpellier.iut.thread.ServerThread;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -42,5 +44,14 @@ public class Connexion implements Runnable{
         }
         return clients.size() + 1;
     }
+
+
+
+
+
+
+
+
+
 
 }
