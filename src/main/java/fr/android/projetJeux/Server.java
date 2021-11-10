@@ -16,11 +16,18 @@ public class Server {
     /**
      *
      * @param args
-     * @throws IOException
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
-        ServerSocket server = new ServerSocket(4000);
+        ServerSocket server = null;
+        try {
+            server = new ServerSocket(4000);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        assert server != null;
+
         System.out.println("SERVER STARTED");
         ExecutorService es = Executors.newFixedThreadPool(10);
 
