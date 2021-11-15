@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="TD1" />
+        <module name="Client-Serveur_Java_16" />
         <module name="untiled" />
         <module name="Client-Server" />
       </profile>

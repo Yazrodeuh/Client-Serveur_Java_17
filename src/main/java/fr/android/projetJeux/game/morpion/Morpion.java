@@ -15,6 +15,9 @@ public class Morpion extends Game {
 
     private GridGame grid;
 
+    private ObjectInputStream[] ins = new ObjectInputStream[2];
+    private ObjectOutputStream[] outs = new ObjectOutputStream[2];
+
     public Morpion(Player player1, Player player2){
         this.player1 = player1;
         this.player2 = player2;
@@ -25,22 +28,55 @@ public class Morpion extends Game {
         System.out.println(player2);
     }
 
+    private void initIO(int first, int sec) throws IOException {
+        ins[first] = new ObjectInputStream(player1.getSocket().getInputStream());
+        ins[sec] = new ObjectInputStream(player2.getSocket().getInputStream());
+        outs[first] = new ObjectOutputStream(player1.getSocket().getOutputStream());
+        outs[sec] = new ObjectOutputStream(player1.getSocket().getOutputStream());
+    }
+
+    private void sendGrid() throws IOException {
+        outs[0].writeObject(grid);
+        outs[1].writeObject(grid);
+    }
+
+    private boolean verif (Coords coords) {
+        for (int i = coords.y - 2; i < coords.y + 2; i++) {
+        }
+        for (int i = coords.y - 2; i < coords.y + 2; i++) {
+        }
+
+
+        return false;
+    }
+
     @Override
     public void start() {
 
         try {
-            ObjectInputStream in1 = new ObjectInputStream(player1.getSocket().getInputStream());
-            ObjectInputStream in2 = new ObjectInputStream(player2.getSocket().getInputStream());
-            ObjectOutputStream out1 = new ObjectOutputStream(player1.getSocket().getOutputStream());
-            ObjectOutputStream out2 = new ObjectOutputStream(player2.getSocket().getOutputStream());
+
+            if (Math.random() < 0.5) {
+                initIO(0,1);
+            } else {
+                initIO(1,0);
+            }
 
             grid.setNamePlayer(Math.random() < 0.5 ? player1.getName() : player2.getName());
 
-            out1.writeObject(grid);
-            out2.writeObject(grid);
+
+            while (true) {
+                sendGrid();
+                Coords coords;
+                coords = (Coords) ins[0].readObject();
+                grid.setMovement(coords,"X");
+
+                sendGrid();
+                coords = (Coords) ins[1].readObject();
+                grid.setMovement(coords,"X");
+            }
 
 
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 

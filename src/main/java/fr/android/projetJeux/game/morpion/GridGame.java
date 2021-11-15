@@ -19,8 +19,8 @@ public class GridGame implements Serializable {
         return grid;
     }
 
-    public void setMovement(int x, int y, String pion){
-        grid[y][x] = pion;
+    public void setMovement(Coords coord, String pion){
+        grid[coord.x][coord.y] = pion;
     }
 
     public void setNamePlayer(String namePlayer) {
