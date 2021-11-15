@@ -23,12 +23,7 @@ public class ObjectOutputStreamRefactor extends ObjectOutputStream {
     protected ObjectOutputStreamRefactor() throws IOException, SecurityException {
     }
 
-    /**
-     *
-     * @throws IOException
-     */
     @Override
-    protected void writeStreamHeader() throws IOException {
-        super.writeStreamHeader();
+    protected void writeStreamHeader() {
     }
 }

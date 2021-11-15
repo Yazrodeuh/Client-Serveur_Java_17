@@ -20,7 +20,7 @@ public class Server {
 
     public static ArrayList<Player> players;
     public static ArrayList<Room> rooms;
-    private static int nbPlayers = 2;
+    public static int nbPlayers = 20;
 
     /**
      *

@@ -19,6 +19,6 @@ public class Room implements Runnable{
 
     @Override
     public void run() {
-
+        game.start(roomPlayers);
     }
 }

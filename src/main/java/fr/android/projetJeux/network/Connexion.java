@@ -4,6 +4,7 @@ import fr.android.projetJeux.Server;
 import fr.android.projetJeux.game.Games;
 import fr.android.projetJeux.game.Player;
 import fr.android.projetJeux.game.Room;
+import fr.android.projetJeux.game.morpion.Morpion;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -13,6 +14,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Connexion implements Runnable{
 
@@ -39,11 +42,29 @@ public class Connexion implements Runnable{
     public void run() {
 
         try {
-            Player player = newPlayer();
+            if (Server.players.size() == Server.nbPlayers - 1) {
+                out.writeObject("SERVER FULL");
+            } else {
+                Player player = newPlayer();
 
-            out.writeObject("Choose a game : " + Arrays.toString(Games.values()));
+                for (Player p : Server.players) {
+                    if (!Objects.equals(p.getName(), player.getName()) && p.getNumRoom() == -1) {
+                        ArrayList<Player> gamers = new ArrayList<>();
+                        gamers.add(player);
+                        gamers.add(p);
+                        Room room = new Room(new Morpion(),gamers);
+                        Server.rooms.add(room);
+                        System.out.println("STARTING ROOM with: " + gamers);
+                        ExecutorService es = Executors.newSingleThreadExecutor();
+                        es.execute(room);
+                    }
+                }
 
-            //String gameSelected = (String) in.readObject();
+                //out.writeObject("Choose a game : " + Arrays.toString(Games.values()));
+
+                //String gameSelected = (String) in.readObject();
+            }
+
 
 
         } catch (IOException | ClassNotFoundException e) {
@@ -67,12 +88,14 @@ public class Connexion implements Runnable{
     }
 
     private Player newPlayer() throws IOException, ClassNotFoundException {
-        String pseudo = "";
+        String pseudo;
+
         do {
+            out.writeObject("Entrez un pseudo");
             pseudo = (String) in.readObject();
         }while (playerExists(pseudo));
 
-        Player player = new Player(pseudo, socket);
+        Player player = new Player(pseudo, socket,in,out);
 
         Server.players.add(player);
 

@@ -29,8 +29,13 @@ public class GridGame implements Serializable {
         this.grid = grid;
     }*/
 
+    public boolean isValid(Coords coord) {
+        System.out.println(coord);
+        return grid[coord.i][coord.j] == ' ';
+    }
+
     public void setMovement(Coords coord, char pion){
-        grid[coord.x][coord.y] = pion;
+        grid[coord.i][coord.j] = pion;
     }
 
     public void setNamePlayer(String namePlayer) {
