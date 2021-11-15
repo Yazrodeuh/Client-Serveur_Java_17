@@ -6,17 +6,22 @@ import java.util.Arrays;
 public class GridGame implements Serializable {
 
     private String namePlayer;
-    private String[][] grid;
+    private char[][] grid;
 
     public GridGame(){
-        this.grid = new String[3][3];
+        this.grid = new char[3][3];
+
+        for (char[] chars : grid) {
+            Arrays.fill(chars, ' ');
+        }
+
     }
 
     public String getNamePlayer() {
         return namePlayer;
     }
 
-    public String[][] getGrid() {
+    public char[][] getGrid() {
         return grid;
     }
 
@@ -24,7 +29,7 @@ public class GridGame implements Serializable {
         this.grid = grid;
     }*/
 
-    public void setMovement(Coords coord, String pion){
+    public void setMovement(Coords coord, char pion){
         grid[coord.x][coord.y] = pion;
     }
 
