@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Objects;
 
 public class Client {
     private ObjectOutputStream out;
@@ -42,7 +43,12 @@ public class Client {
 
             String response;
             do {
-                System.out.println("Entrez un pseudo: ");
+                String message = (String) in.readObject();
+
+                if(Objects.equals(message, "SERVER FULL")){
+                    socket.close();
+                    break;
+                }
                 out.writeObject(SaisieClavier.saisieTerminal());
                 response = (String) in.readObject();
                 System.out.println(response);

@@ -4,6 +4,7 @@ import fr.android.projetJeux.game.morpion.Morpion;
 import fr.android.projetJeux.game.pong.Pong;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public enum Games {
 
@@ -15,6 +16,7 @@ public enum Games {
         this.nbGamers = nbGamers;
     }
 
-
-
+    public static void main(String[] args) {
+        System.out.println(Arrays.toString(Games.values()));
+    }
 }

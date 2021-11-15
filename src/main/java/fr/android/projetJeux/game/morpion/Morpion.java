@@ -13,27 +13,22 @@ public class Morpion implements IGame {
 
     private Player player1;
     private Player player2;
+    private String code = "[Morpion]";
 
     private GridGame grid;
 
     private ObjectInputStream[] ins = new ObjectInputStream[2];
     private ObjectOutputStream[] outs = new ObjectOutputStream[2];
 
-    public Morpion(Player player1, Player player2){
-        this.player1 = player1;
-        this.player2 = player2;
-
+    public Morpion(){
         grid = new GridGame();
-
-        System.out.println(player1);
-        System.out.println(player2);
     }
 
-    private void initIO(int first, int sec) throws IOException {
+    private void initIO(int first, int second) throws IOException {
         ins[first] = new ObjectInputStream(player1.getSocket().getInputStream());
-        ins[sec] = new ObjectInputStream(player2.getSocket().getInputStream());
+        ins[second] = new ObjectInputStream(player2.getSocket().getInputStream());
         outs[first] = new ObjectOutputStream(player1.getSocket().getOutputStream());
-        outs[sec] = new ObjectOutputStream(player1.getSocket().getOutputStream());
+        outs[second] = new ObjectOutputStream(player1.getSocket().getOutputStream());
     }
 
     private void sendGrid() throws IOException {
@@ -54,6 +49,9 @@ public class Morpion implements IGame {
     @Override
     public void start(ArrayList<Player> gamers) {
 
+        player1 = gamers.get(0);
+        player2 = gamers.get(1);
+
         try {
 
             if (Math.random() < 0.5) {
@@ -63,7 +61,6 @@ public class Morpion implements IGame {
             }
 
             grid.setNamePlayer(Math.random() < 0.5 ? player1.getName() : player2.getName());
-
 
             while (true) {
                 sendGrid();
@@ -105,8 +102,22 @@ public class Morpion implements IGame {
     }
 
 
+    private boolean win(Coords coords){
+
+
+
+        return false;
+    }
+
+
+
+
+
+
     @Override
     public String toString() {
         return "Morpion{}";
     }
+
+
 }

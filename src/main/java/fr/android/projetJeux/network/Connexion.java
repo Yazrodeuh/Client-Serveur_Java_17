@@ -1,6 +1,7 @@
 package fr.android.projetJeux.network;
 
 import fr.android.projetJeux.Server;
+import fr.android.projetJeux.game.Games;
 import fr.android.projetJeux.game.Player;
 import fr.android.projetJeux.game.Room;
 import org.jetbrains.annotations.NotNull;
@@ -10,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Connexion implements Runnable{
@@ -39,7 +41,7 @@ public class Connexion implements Runnable{
         try {
             Player player = newPlayer();
 
-            out.writeObject("Choose a game : ");
+            out.writeObject("Choose a game : " + Arrays.toString(Games.values()));
 
             //String gameSelected = (String) in.readObject();
 

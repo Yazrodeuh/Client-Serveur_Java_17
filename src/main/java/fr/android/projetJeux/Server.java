@@ -3,8 +3,10 @@ package fr.android.projetJeux;
 import fr.android.projetJeux.game.Player;
 import fr.android.projetJeux.game.Room;
 import fr.android.projetJeux.network.Connexion;
+import fr.android.projetJeux.utils.ObjectOutputStreamRefactor;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ public class Server {
 
     public static ArrayList<Player> players;
     public static ArrayList<Room> rooms;
+    private static int nbPlayers = 2;
 
     /**
      *
@@ -37,13 +40,21 @@ public class Server {
         rooms = new ArrayList<>();
 
         System.out.println("SERVER STARTED");
-        ExecutorService es = Executors.newFixedThreadPool(10);
+        ExecutorService es = Executors.newFixedThreadPool(Server.nbPlayers);
+
+
 
         try {
                 try {
                     while (true) {
+
                         Socket client = server.accept();
-                        es.execute(new Connexion(client));
+                        if(Server.players.size() < Server.nbPlayers){
+                            es.execute(new Connexion(client));
+                        }else if (Server.players.size() == Server.nbPlayers){
+
+                        }
+
                     }
 
                 }catch (IOException e) {
