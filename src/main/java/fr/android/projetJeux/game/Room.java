@@ -6,10 +6,12 @@ public class Room implements Runnable{
 
     public static int nextIdRoom = 0;
     public int id;
-    private Game game;
+    private IGame game;
+    private ArrayList<Player> roomPlayers;
 
-    public Room(Game game){
+    public Room(IGame game, ArrayList<Player> roomPlayers){
         this.game = game;
+        this.roomPlayers = roomPlayers;
         id = nextIdRoom;
         nextIdRoom++;
 

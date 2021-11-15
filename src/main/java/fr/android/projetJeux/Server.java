@@ -1,10 +1,13 @@
 package fr.android.projetJeux;
 
+import fr.android.projetJeux.game.Player;
+import fr.android.projetJeux.game.Room;
 import fr.android.projetJeux.network.Connexion;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -13,9 +16,11 @@ import java.util.concurrent.Executors;
  */
 public class Server {
 
+    public static ArrayList<Player> players;
+    public static ArrayList<Room> rooms;
+
     /**
      *
-     * @param args
      */
     public static void main(String[] args) {
 
@@ -27,6 +32,9 @@ public class Server {
         }
 
         assert server != null;
+
+        players = new ArrayList<>();
+        rooms = new ArrayList<>();
 
         System.out.println("SERVER STARTED");
         ExecutorService es = Executors.newFixedThreadPool(10);

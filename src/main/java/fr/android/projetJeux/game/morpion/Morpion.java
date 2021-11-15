@@ -1,14 +1,15 @@
 package fr.android.projetJeux.game.morpion;
 
-import fr.android.projetJeux.game.Game;
+import fr.android.projetJeux.game.Games;
+import fr.android.projetJeux.game.IGame;
 import fr.android.projetJeux.game.Player;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.GregorianCalendar;
+import java.util.ArrayList;
 
-public class Morpion extends Game {
+public class Morpion implements IGame {
 
     private Player player1;
     private Player player2;
@@ -51,7 +52,7 @@ public class Morpion extends Game {
     }
 
     @Override
-    public void start() {
+    public void start(ArrayList<Player> gamers) {
 
         try {
 
@@ -79,6 +80,11 @@ public class Morpion extends Game {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void stop() {
 
     }
 
