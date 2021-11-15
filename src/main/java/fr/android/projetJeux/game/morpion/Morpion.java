@@ -3,16 +3,21 @@ package fr.android.projetJeux.game.morpion;
 import fr.android.projetJeux.game.Games;
 import fr.android.projetJeux.game.IGame;
 import fr.android.projetJeux.game.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Objects;
 
 public class Morpion implements IGame {
 
     private Player player1;
     private Player player2;
+    private HashMap<Player, Character> pion;
     private String code = "[Morpion]";
 
     private GridGame grid;
@@ -22,6 +27,10 @@ public class Morpion implements IGame {
 
     public Morpion(){
         grid = new GridGame();
+        pion = new HashMap<>(2);
+
+        pion.put(player1, 'X');
+        pion.put(player2, 'O');
     }
 
     private void initIO(int first, int second) throws IOException {
@@ -66,11 +75,11 @@ public class Morpion implements IGame {
                 sendGrid();
                 Coords coords;
                 coords = (Coords) ins[0].readObject();
-                grid.setMovement(coords,"X");
+                grid.setMovement(coords,'X');
 
                 sendGrid();
                 coords = (Coords) ins[1].readObject();
-                grid.setMovement(coords,"X");
+                grid.setMovement(coords,'X');
             }
 
 
@@ -102,14 +111,26 @@ public class Morpion implements IGame {
     }
 
 
-    private boolean win(Coords coords){
-
-
-
-        return false;
+    private boolean win(@NotNull Coords coords){
+        return grid.getGrid()[coords.y][coords.x] != ' ' && winV(coords.x) && winH(coords.y) && winD();
     }
 
+    private boolean winV(int x){
+        return Objects.equals(grid.getGrid()[0][x], grid.getGrid()[1][x]) &&
+                Objects.equals(grid.getGrid()[1][x], grid.getGrid()[2][x]);
+    }
 
+    private boolean winH(int y){
+        return Objects.equals(grid.getGrid()[y][0], grid.getGrid()[y][1]) &&
+                Objects.equals(grid.getGrid()[y][1], grid.getGrid()[y][2]);
+    }
+
+    private boolean winD(){
+        return (Objects.equals(grid.getGrid()[0][0], grid.getGrid()[1][1]) &&
+                Objects.equals(grid.getGrid()[1][1], grid.getGrid()[2][2])) || (
+                Objects.equals(grid.getGrid()[0][2], grid.getGrid()[1][1]) &&
+                Objects.equals(grid.getGrid()[1][1], grid.getGrid()[2][0]));
+    }
 
 
 
@@ -119,5 +140,17 @@ public class Morpion implements IGame {
         return "Morpion{}";
     }
 
+
+    public static void main(String[] args) {
+        Morpion morpion = new Morpion();
+
+        System.out.println(morpion.grid);
+
+        morpion.grid.getGrid()[1][1] = 'Z';
+
+        System.out.println(morpion.win(new Coords(1, 1)));
+        System.out.println(morpion.grid);
+
+    }
 
 }
