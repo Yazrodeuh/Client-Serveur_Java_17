@@ -1,7 +1,9 @@
 package fr.android.projetJeux.game.morpion;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class GridGame implements Serializable {
 
@@ -17,6 +19,18 @@ public class GridGame implements Serializable {
 
     }
 
+    public static GridGame parse(String str) {
+        GridGame parsed = new GridGame();
+        String[] lines = str.split("\n");
+        for (int i = 0; i < lines.length; i++) {
+            String[] chars = lines[i].split(" \\| ");
+            for (int j = 0; j < chars.length; j++) {
+                parsed.setMovement(new Coords(i,j), chars[j].charAt(0));
+            }
+        }
+        return parsed;
+    }
+
     public String getNamePlayer() {
         return namePlayer;
     }
@@ -25,12 +39,11 @@ public class GridGame implements Serializable {
         return grid;
     }
 
-    /*public void setGrid(String[][] grid) {
+    public void setGrid(char[][] grid) {
         this.grid = grid;
-    }*/
+    }
 
     public boolean isValid(Coords coord) {
-        System.out.println(coord);
         return grid[coord.i][coord.j] == ' ';
     }
 
@@ -50,9 +63,8 @@ public class GridGame implements Serializable {
     }
 
     public static void main(String[] args) {
-        GridGame gridGame = new GridGame();
-
-        //gridGame.setGrid(new String[][]{{"x", "x", "x"}, {"x", "x", "x"}, {"x", "x", "x"}});
+        String grid = "X | O | X\nX | O | X\nO | X | O\n";
+        GridGame gridGame = GridGame.parse(grid);
         System.out.println(gridGame);
     }
 }

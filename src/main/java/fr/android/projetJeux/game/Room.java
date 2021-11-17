@@ -15,6 +15,10 @@ public class Room implements Runnable{
         id = nextIdRoom;
         nextIdRoom++;
 
+        for(Player p : roomPlayers) {
+            p.setNumRoom(id);
+        }
+
     }
 
     @Override

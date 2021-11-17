@@ -25,6 +25,10 @@ public class Player {
         this.out = out;
     }
 
+    public void setNumRoom(int numRoom) {
+        this.numRoom = numRoom;
+    }
+
     public String getName() {
         return name;
     }

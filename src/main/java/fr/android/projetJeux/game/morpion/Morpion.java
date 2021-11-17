@@ -1,89 +1,72 @@
 package fr.android.projetJeux.game.morpion;
 
-import fr.android.projetJeux.game.Games;
 import fr.android.projetJeux.game.IGame;
 import fr.android.projetJeux.game.Player;
-import fr.android.projetJeux.utils.ObjectOutputStreamRefactor;
+import fr.android.projetJeux.utils.Code;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 public class Morpion implements IGame {
 
-    private ArrayList<Player> gamers;
+    private ArrayList<Player> players;
     private HashMap<Player, Character> pion;
-    private String code = "[Morpion]";
+    //private String code = "[Morpion]";
 
     private GridGame grid;
 
-    private ObjectInputStream[] ins = new ObjectInputStream[2];
-    private ObjectOutputStream[] outs = new ObjectOutputStream[2];
+    private Player currentPlayer;
 
-    private int currentPlayerIndex;
+    private boolean finished = false;
 
-    public Morpion(){
+    public Morpion() {
         grid = new GridGame();
+        preRemplissageDeLaGrillePourNePasAvoirAFaireUnePartieCompleteAvantDArriverALaPartieATester();
         pion = new HashMap<>(2);
     }
 
     private void initIO(int first, int second) {
-        currentPlayerIndex = first;
-        outs[first] = gamers.get(0).getOut();
-        outs[second] = gamers.get(1).getOut();
-
-        ins[first] = gamers.get(0).getIn();
-        ins[second] = gamers.get(1).getIn();
+        currentPlayer = players.get(first);
 
     }
 
-    private void sendGrid() throws IOException {
-        outs[0].writeObject(grid);
-        outs[1].writeObject(grid);
+    private void sendInfos(String code) throws IOException {
+        for (Player p : players) {
+            p.getOut().writeObject(code + Code.SEPARATOR + grid.toString() + Code.SEPARATOR + currentPlayer.getName());
+        }
     }
-
-//    private boolean verif (Coords coords) {
-//        for (int i = coords.y - 2; i < coords.y + 2; i++) {
-//        }
-//        for (int i = coords.y - 2; i < coords.y + 2; i++) {
-//        }
-//
-//
-//        return false;
-//    }
 
     @Override
     public void start(ArrayList<Player> gamers) {
 
-        this.gamers = gamers;
-        pion.put(gamers.get(0), 'X');
-        pion.put(gamers.get(1), 'O');
+        this.players = gamers;
 
         try {
 
             if (Math.random() < 0.5) {
-                initIO(0,1);
+                initIO(0, 1);
             } else {
-                initIO(1,0);
+                initIO(1, 0);
             }
 
-            grid.setNamePlayer(gamers.get(currentPlayerIndex).getName());
+            pion.put(currentPlayer, 'X');
+            pion.put(getNextPlayer(), 'O');
 
-            while (true) {
-                sendGrid();
-                Coords coords = (Coords) ins[0].readObject();
-                grid.setMovement(coords,'X');
+            grid.setNamePlayer(currentPlayer.getName());
 
-                nextPlayer();
+            for (Player p : players) {
+                p.getOut().writeObject(Code.BEGIN + Code.SEPARATOR + pion.get(p).toString());
+            }
 
-                sendGrid();
-                coords = (Coords) ins[1].readObject();
-                grid.setMovement(coords,'O');
+            while (!finished) {
+                sendInfos(Code.INFOS);
+                Coords coords = (Coords) currentPlayer.getIn().readObject();
+                grid.setMovement(coords, pion.get(currentPlayer));
+                if (win(coords)) {
+                    stop();
+                }
+
                 nextPlayer();
             }
 
@@ -94,44 +77,74 @@ public class Morpion implements IGame {
 
     }
 
+    private Player getNextPlayer() {
+        return players.get((players.indexOf(currentPlayer) + 1) % 2);
+    }
+
     private void nextPlayer() {
-        currentPlayerIndex = (currentPlayerIndex == 1) ? 0 : 1;
-        grid.setNamePlayer(gamers.get(currentPlayerIndex).getName());
+        currentPlayer = getNextPlayer();
+        grid.setNamePlayer(currentPlayer.getName());
     }
 
     @Override
-    public void stop() {
+    public void stop() throws IOException {
+        finished = true;
+
+        sendInfos(Code.WINNER);
 
     }
 
 
-    private boolean win(@NotNull Coords coords){
-        return grid.getGrid()[coords.i][coords.j] != ' ' && winV(coords.j) && winH(coords.i) && winD();
+    private boolean win(@NotNull Coords coords) {
+        return winV(coords.j) || winH(coords.i) || winD(coords);
     }
 
-    private boolean winV(int x){
-        return Objects.equals(grid.getGrid()[0][x], grid.getGrid()[1][x]) &&
-                Objects.equals(grid.getGrid()[1][x], grid.getGrid()[2][x]);
+    private boolean winV(int j) {
+        return Objects.equals(grid.getGrid()[0][j], grid.getGrid()[1][j]) &&
+                Objects.equals(grid.getGrid()[1][j], grid.getGrid()[2][j]);
     }
 
-    private boolean winH(int y){
-        return Objects.equals(grid.getGrid()[y][0], grid.getGrid()[y][1]) &&
-                Objects.equals(grid.getGrid()[y][1], grid.getGrid()[y][2]);
+    private boolean winH(int i) {
+        return Objects.equals(grid.getGrid()[i][0], grid.getGrid()[i][1]) &&
+                Objects.equals(grid.getGrid()[i][1], grid.getGrid()[i][2]);
     }
 
-    private boolean winD(){
-        return (Objects.equals(grid.getGrid()[0][0], grid.getGrid()[1][1]) &&
-                Objects.equals(grid.getGrid()[1][1], grid.getGrid()[2][2])) || (
-                Objects.equals(grid.getGrid()[0][2], grid.getGrid()[1][1]) &&
-                Objects.equals(grid.getGrid()[1][1], grid.getGrid()[2][0]));
+    private boolean winRD() {
+        return Objects.equals(grid.getGrid()[0][0], grid.getGrid()[1][1]) &&
+                Objects.equals(grid.getGrid()[1][1], grid.getGrid()[2][2]);
     }
 
+    private boolean winLD() {
+        return Objects.equals(grid.getGrid()[0][2], grid.getGrid()[1][1]) &&
+                Objects.equals(grid.getGrid()[1][1], grid.getGrid()[2][0]);
+    }
 
+    private boolean winD(Coords coords) {
+        boolean won = false;
+        if (coords.equals(new Coords(0, 0)) || coords.equals(new Coords(2, 2))) {
+            won = winRD();
+        } else if (coords.equals(new Coords(0, 2)) || coords.equals(new Coords(2, 0))) {
+            won = winLD();
+        } else if(coords.equals(new Coords(1, 1))){
+            won = winRD() || winLD();
+        }
+            return won;
+    }
 
 
     @Override
     public String toString() {
         return "Morpion{}";
+    }
+
+    private void preRemplissageDeLaGrillePourNePasAvoirAFaireUnePartieCompleteAvantDArriverALaPartieATester() {
+        char[][] chars = {
+                {' ',' ', ' '},
+                {'O','X', 'O'},
+                {'X',' ', 'X'}
+        };
+
+        grid.setGrid(chars);
     }
 
 

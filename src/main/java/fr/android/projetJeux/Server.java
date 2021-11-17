@@ -49,11 +49,7 @@ public class Server {
                     while (true) {
 
                         Socket client = server.accept();
-                        if(Server.players.size() < Server.nbPlayers){
-                            es.execute(new Connexion(client));
-                        }else if (Server.players.size() == Server.nbPlayers){
-
-                        }
+                        es.execute(new Connexion(client));
 
                     }
 
