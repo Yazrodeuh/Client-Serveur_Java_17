@@ -4,5 +4,6 @@ public class Code {
     public static final String BEGIN = "[begin]";
     public static final String INFOS = "[infos]";
     public static final String WINNER = "[winner]";
+    public static final String NUL = "[nul]";
     public static final String SEPARATOR = "#";
 }

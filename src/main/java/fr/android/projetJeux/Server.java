@@ -3,7 +3,6 @@ package fr.android.projetJeux;
 import fr.android.projetJeux.game.Player;
 import fr.android.projetJeux.game.Room;
 import fr.android.projetJeux.network.Connexion;
-import fr.android.projetJeux.utils.ObjectOutputStreamRefactor;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

@@ -1,18 +1,16 @@
 package fr.android.projetJeux;
 
-import fr.android.projetJeux.game.Games;
+import fr.android.projetJeux.FX.App;
 import fr.android.projetJeux.game.morpion.Coords;
 import fr.android.projetJeux.game.morpion.GridGame;
 import fr.android.projetJeux.utils.Code;
-import fr.android.projetJeux.utils.ObjectOutputStreamRefactor;
 import fr.android.projetJeux.utils.SaisieClavier;
+import javafx.application.Platform;
 
-import javax.crypto.Cipher;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class Client {
@@ -20,11 +18,15 @@ public class Client {
     private ObjectInputStream in;
 
     private String pseudo;
-    private GridGame grid = new GridGame();
+    private String status = "setup";
 
     public static void main(String[] args) {
         //launch();
         new Client().start();
+    }
+
+    public ObjectOutputStream getOut() {
+        return out;
     }
 
     public void start() {
@@ -43,51 +45,49 @@ public class Client {
                 switch (received[0]) {
                     case Code.INFOS -> {
                         GridGame grid = GridGame.parse(received[1]);
-                        System.out.println(grid);
                         grid.setNamePlayer(received[2]);
 
-                        if (Objects.equals(grid.getNamePlayer(), pseudo)) {
-                            Coords laCase = null;
-                            boolean valid = false;
-                            do {
-                                try {
-                                    System.out.println("Votre tour ! choisir case (i , j)");
-                                    int i = Integer.parseInt(SaisieClavier.saisieTerminal());
-                                    int j = Integer.parseInt(SaisieClavier.saisieTerminal());
-                                    laCase = new Coords(i,j);
-                                    if (!grid.isValid(laCase)) {
-                                        System.out.println(laCase + " à déjà été joué");
-                                    } else {
-                                        out.writeObject(laCase);
-                                        valid = true;
-                                    }
+                        Platform.runLater(() -> App.setGrid(grid));
 
-                                } catch (ArrayIndexOutOfBoundsException e) {
-                                    System.out.println(laCase + " est hors du tableau, i et j doivent être inférieurs ou égaux à 2");
-                                }
-
-                            } while (!valid);
-
-                        } else {
-                            System.out.println("Au tour de votre adversiare ! Veuillez patienter");
-                        }
                     }
                     case Code.WINNER -> {
                         GridGame grid = GridGame.parse(received[1]);
-                        System.out.println(grid);
                         grid.setNamePlayer(received[2]);
 
+                        Platform.runLater(() -> App.setGrid(grid));
+                        Platform.runLater(App::setWinner);
                         finished = true;
                         System.out.println(received[2].equals(pseudo) ? "Félicitation vous avez gagné !" : "Vous avez perdu");
                     }
                     case Code.BEGIN -> System.out.println("Vous êtes " + received[1]);
+                    case Code.NUL -> {
+                        GridGame grid = GridGame.parse(received[1]);
+                        grid.setNamePlayer(received[2]);
+
+                        Platform.runLater(() -> App.setGrid(grid));
+                        Platform.runLater(App::setMatchNul);
+                        finished = true;
+                    }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("SERVER NOT FOUND\nPlease start the server, then restart the application");
+            Platform.runLater(() -> App.displayErrorMessage("SERVER NOT FOUND\nPlease start the server, then restart the application"));
             //Software.getMessages().setText();
         }
+    }
+
+    public String getPseudo() {
+        return pseudo;
+    }
+
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
+    public void send(Coords c) throws IOException {
+        out.writeObject(c);
+
     }
 
 
@@ -101,17 +101,23 @@ public class Client {
             do {
                 String message = (String) in.readObject();
 
+
+
                 if(Objects.equals(message, "SERVER FULL")){
                     System.out.println(message);
                     socket.close();
                     break;
                 }
 
-                System.out.println(message);
-                pseudo = SaisieClavier.saisieTerminal();
-                out.writeObject(pseudo);
+                Platform.runLater(App::displayPseudoField);
+
                 response = (String) in.readObject();
-                System.out.println(response);
+
+                Platform.runLater(App::hidePseudo);
+                if (!response.equals("CONNECTED")) {
+                    Platform.runLater(() -> App.displayErrorMessage("Ce pseudo existe déjà"));
+                }
+
             } while (!response.equals("CONNECTED"));
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

@@ -64,10 +64,15 @@ public class Morpion implements IGame {
                 Coords coords = (Coords) currentPlayer.getIn().readObject();
                 grid.setMovement(coords, pion.get(currentPlayer));
                 if (win(coords)) {
-                    stop();
+                    stop("win");
+                } else if (matchNul()) {
+                    stop("nul");
+                } else {
+                    System.out.println("ici");
+                    nextPlayer();
                 }
 
-                nextPlayer();
+
             }
 
 
@@ -87,11 +92,24 @@ public class Morpion implements IGame {
     }
 
     @Override
-    public void stop() throws IOException {
+    public void stop(String status) throws IOException {
         finished = true;
+        System.out.println(status);
+        sendInfos((Objects.equals(status, "win")) ? Code.WINNER : Code.NUL);
 
-        sendInfos(Code.WINNER);
+    }
 
+    private boolean matchNul() {
+        char[][] grille = grid.getGrid();
+        System.out.println(grid);
+        boolean free = false;
+        for (int i = 0; i < grille.length && !free; i++) {
+            for (int j = 0; j < grille[i].length && !free; j++) {
+                System.out.println(i + " " + j);
+                free = grille[i][j] == ' ';
+            }
+        }
+        return !free;
     }
 
 
@@ -139,9 +157,9 @@ public class Morpion implements IGame {
 
     private void preRemplissageDeLaGrillePourNePasAvoirAFaireUnePartieCompleteAvantDArriverALaPartieATester() {
         char[][] chars = {
-                {' ',' ', ' '},
+                {'O',' ', 'O'},
                 {'O','X', 'O'},
-                {'X',' ', 'X'}
+                {'X','O', 'X'}
         };
 
         grid.setGrid(chars);

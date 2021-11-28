@@ -55,6 +55,8 @@ public class GridGame implements Serializable {
         this.namePlayer = namePlayer;
     }
 
+
+
     @Override
     public String toString() {
         return      grid[0][0] + " | " + grid[0][1] + " | " + grid[0][2] + "\n"
