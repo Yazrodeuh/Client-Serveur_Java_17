@@ -39,26 +39,13 @@ public class Client {
             while (!finished) {
                 String[] received = ((String) in.readObject()).split(Code.SEPARATOR.getCodeValue());
 
-                if(Objects.equals(received[0], Code.INFOS.getCodeValue())){
-                    GridGame grid = GridGame.parse(received[1]);
-                    grid.setNamePlayer(received[2]);
+                setGrid(received[1],received[2]);
 
-                    Platform.runLater(() -> App.setGrid(grid));
-                }else if (Objects.equals(received[0], Code.WINNER.getCodeValue())){
-                    GridGame grid = GridGame.parse(received[1]);
-                    grid.setNamePlayer(received[2]);
-
-                    Platform.runLater(() -> App.setGrid(grid));
+                if (Objects.equals(received[0], Code.WINNER.getCodeValue())){
                     Platform.runLater(() -> App.setWinner(Integer.parseInt(received[3])));
                     finished = true;
                     System.out.println(received[2].equals(pseudo) ? "Félicitation vous avez gagné !" : "Vous avez perdu");
-                }else if(Objects.equals(received[0], Code.BEGIN.getCodeValue())){
-                    System.out.println("Vous êtes " + received[1]);
                 }else if(Objects.equals(received[0], Code.NUL.getCodeValue())) {
-                    GridGame grid = GridGame.parse(received[1]);
-                    grid.setNamePlayer(received[2]);
-
-                    Platform.runLater(() -> App.setGrid(grid));
                     Platform.runLater(App::setMatchNul);
                     finished = true;
                 }
@@ -66,8 +53,14 @@ public class Client {
         } catch (Exception e) {
             e.printStackTrace();
             Platform.runLater(() -> App.displayErrorMessage("SERVER NOT FOUND\nPlease start the server, then restart the application"));
-            //Software.getMessages().setText();
         }
+    }
+
+    public void setGrid(String received,String name) {
+        GridGame grid = GridGame.parse(received);
+        grid.setNamePlayer(name);
+
+        Platform.runLater(() -> App.setGrid(grid));
     }
 
     public String getPseudo() {

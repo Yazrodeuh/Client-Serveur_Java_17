@@ -36,7 +36,7 @@ public class Morpion implements IGame {
 
     private void sendInfos(String code) throws IOException {
         for (Player p : players) {
-            p.getOut().writeObject(code + Code.SEPARATOR.getCodeValue() + grid.toString() + Code.SEPARATOR + currentPlayer.getName() + Code.SEPARATOR + winline);
+            p.getOut().writeObject(code + Code.SEPARATOR.getCodeValue() + grid.toString() + Code.SEPARATOR.getCodeValue() + currentPlayer.getName() + Code.SEPARATOR.getCodeValue() + winline);
         }
     }
 
@@ -57,10 +57,6 @@ public class Morpion implements IGame {
             pion.put(getNextPlayer(), 'O');
 
             grid.setNamePlayer(currentPlayer.getName());
-
-            for (Player p : players) {
-                p.getOut().writeObject(Code.BEGIN.getCodeValue() + Code.SEPARATOR.getCodeValue() + pion.get(p).toString());
-            }
 
             while (!finished) {
                 sendInfos(Code.INFOS.getCodeValue());
