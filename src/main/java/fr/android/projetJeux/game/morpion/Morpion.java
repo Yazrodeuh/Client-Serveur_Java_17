@@ -24,7 +24,7 @@ public class Morpion implements IGame {
 
     public Morpion() {
         grid = new GridGame();
-        preRemplissageDeLaGrillePourNePasAvoirAFaireUnePartieCompleteAvantDArriverALaPartieATester();
+        //preRemplissageDeLaGrillePourNePasAvoirAFaireUnePartieCompleteAvantDArriverALaPartieATester();
         pion = new HashMap<>(2);
     }
 
