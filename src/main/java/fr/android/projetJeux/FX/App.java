@@ -3,6 +3,7 @@ package fr.android.projetJeux.FX;
 import fr.android.projetJeux.Client;
 import fr.android.projetJeux.FX.Elements.GameButton;
 import fr.android.projetJeux.FX.Elements.GameInput;
+import fr.android.projetJeux.FX.Elements.GameLine;
 import fr.android.projetJeux.FX.Elements.GameText;
 import fr.android.projetJeux.game.morpion.Coords;
 import fr.android.projetJeux.game.morpion.GridGame;
@@ -13,9 +14,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class App extends Application {
     public static Color background = Color.GRAY;
@@ -29,6 +32,8 @@ public class App extends Application {
     public static GridGame grid;
     private static GameText text;
     private static final GameText error = new GameText();
+
+    private static final GameLine[] lineList = new GameLine[8];
 
     @Override
     public void start(Stage stage) {
@@ -94,7 +99,7 @@ public class App extends Application {
         contentGroup.getChildren().clear();
         hideError();
 
-        int size = 150;
+        double size = 150;
         double xDepart = (sizeX - size * 3) / 2;
         double y = 25 + (sizeY - size * 3) / 2;
 
@@ -103,6 +108,30 @@ public class App extends Application {
         text.setFontSize(25);
 
         contentGroup.getChildren().add(text);
+
+        double xLine = xDepart + size / 2;
+        double yLine = y -25;
+        double lineSize = size * 3 + 50;
+        for (int i = 0; i < 3; i++) {
+            lineList[i] = new GameLine(xLine, yLine,xLine,yLine + lineSize);
+            xLine += size;
+        }
+
+        xLine = xDepart - 25;
+        yLine = y + size / 2;
+        for (int i = 3; i < 6; i++) {
+            lineList[i] = new GameLine(xLine, yLine,xLine + lineSize,yLine);
+            yLine += size;
+        }
+
+        xLine = xDepart - 25;
+        yLine = y - 25;
+
+        lineList[6] = new GameLine(xLine, yLine,xLine + lineSize,yLine + lineSize);
+        lineList[7] = new GameLine(xLine + lineSize,yLine,xLine, yLine + lineSize);
+
+
+        group.getChildren().addAll(Arrays.asList(lineList));
 
         int i = 0, j = 0;
         for (char[] row : grid.getGrid()) {
@@ -136,7 +165,8 @@ public class App extends Application {
 
     }
 
-    public static void setWinner() {
+    public static void setWinner(int index) {
+        lineList[index].setVisible(true);
         text.setText(grid.getNamePlayer().equals(client.getPseudo()) ? "Félicitation vous avez gagné" : "Vous avez perdu");
     }
     public static void setMatchNul() {

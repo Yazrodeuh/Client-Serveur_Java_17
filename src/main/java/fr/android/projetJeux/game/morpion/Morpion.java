@@ -14,6 +14,8 @@ public class Morpion implements IGame {
     private HashMap<Player, Character> pion;
     //private String code = "[Morpion]";
 
+    private int winline = 0;
+
     private GridGame grid;
 
     private Player currentPlayer;
@@ -33,7 +35,7 @@ public class Morpion implements IGame {
 
     private void sendInfos(String code) throws IOException {
         for (Player p : players) {
-            p.getOut().writeObject(code + Code.SEPARATOR + grid.toString() + Code.SEPARATOR + currentPlayer.getName());
+            p.getOut().writeObject(code + Code.SEPARATOR + grid.toString() + Code.SEPARATOR + currentPlayer.getName() + Code.SEPARATOR + winline );
         }
     }
 
@@ -94,8 +96,7 @@ public class Morpion implements IGame {
     @Override
     public void stop(String status) throws IOException {
         finished = true;
-        System.out.println(status);
-        sendInfos((Objects.equals(status, "win")) ? Code.WINNER : Code.NUL);
+        sendInfos(Objects.equals(status, "nul") ? Code.NUL : Code.WINNER);
 
     }
 
@@ -118,23 +119,46 @@ public class Morpion implements IGame {
     }
 
     private boolean winV(int j) {
-        return Objects.equals(grid.getGrid()[0][j], grid.getGrid()[1][j]) &&
+        boolean win = Objects.equals(grid.getGrid()[0][j], grid.getGrid()[1][j]) &&
                 Objects.equals(grid.getGrid()[1][j], grid.getGrid()[2][j]);
+        if (win) {
+            winline = j;
+            return true;
+        }
+        return false;
     }
 
     private boolean winH(int i) {
-        return Objects.equals(grid.getGrid()[i][0], grid.getGrid()[i][1]) &&
+        boolean win = Objects.equals(grid.getGrid()[i][0], grid.getGrid()[i][1]) &&
                 Objects.equals(grid.getGrid()[i][1], grid.getGrid()[i][2]);
+
+        if (win) {
+            winline = i + 3;
+            return true;
+        }
+        return false;
     }
 
     private boolean winRD() {
-        return Objects.equals(grid.getGrid()[0][0], grid.getGrid()[1][1]) &&
+        boolean win = Objects.equals(grid.getGrid()[0][0], grid.getGrid()[1][1]) &&
                 Objects.equals(grid.getGrid()[1][1], grid.getGrid()[2][2]);
+
+        if (win) {
+            winline = 6;
+            return true;
+        }
+        return false;
     }
 
     private boolean winLD() {
-        return Objects.equals(grid.getGrid()[0][2], grid.getGrid()[1][1]) &&
+        boolean win = Objects.equals(grid.getGrid()[0][2], grid.getGrid()[1][1]) &&
                 Objects.equals(grid.getGrid()[1][1], grid.getGrid()[2][0]);
+
+        if (win) {
+            winline = 7;
+            return true;
+        }
+        return false;
     }
 
     private boolean winD(Coords coords) {
@@ -157,9 +181,9 @@ public class Morpion implements IGame {
 
     private void preRemplissageDeLaGrillePourNePasAvoirAFaireUnePartieCompleteAvantDArriverALaPartieATester() {
         char[][] chars = {
-                {'O',' ', 'O'},
+                {'O','O', ' '},
                 {'O','X', 'O'},
-                {'X','O', 'X'}
+                {'X','X', 'O'}
         };
 
         grid.setGrid(chars);

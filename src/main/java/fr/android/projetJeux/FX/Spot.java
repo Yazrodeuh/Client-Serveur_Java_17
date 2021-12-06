@@ -8,7 +8,7 @@ import javafx.scene.shape.Rectangle;
 public class Spot extends Rectangle {
     private final Coords coords;
 
-    public Spot(Coords c, double x, double y, int size) {
+    public Spot(Coords c, double x, double y, double size) {
         super(x,y,size,size);
 
         coords = c;

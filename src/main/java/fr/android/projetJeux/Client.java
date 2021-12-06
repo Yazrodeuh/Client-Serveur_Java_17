@@ -55,7 +55,7 @@ public class Client {
                         grid.setNamePlayer(received[2]);
 
                         Platform.runLater(() -> App.setGrid(grid));
-                        Platform.runLater(App::setWinner);
+                        Platform.runLater(() -> App.setWinner(Integer.parseInt(received[3])));
                         finished = true;
                         System.out.println(received[2].equals(pseudo) ? "Félicitation vous avez gagné !" : "Vous avez perdu");
                     }

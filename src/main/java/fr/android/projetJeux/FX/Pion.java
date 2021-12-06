@@ -34,7 +34,7 @@ public class Pion {
         Circle c = new Circle(x + size / 2, y + size / 2, (size - offset * 2) / 2);
         c.setFill(App.background);
         c.setStroke(Color.BLACK);
-        c.setStrokeWidth(5);
+        c.setStrokeWidth(10);
         c.setCursor(cursor);
 
         pion = c;
@@ -46,11 +46,11 @@ public class Pion {
 
         Line diag1 = new Line(x + offset, y + offset, x + size - offset, y + size - offset);
         diag1.setStroke(Color.BLACK);
-        diag1.setStrokeWidth(5);
+        diag1.setStrokeWidth(10);
 
         Line diag2 = new Line(x + size - offset, y + offset, x + offset, y + size - offset);
         diag2.setStroke(Color.BLACK);
-        diag2.setStrokeWidth(5);
+        diag2.setStrokeWidth(10);
 
         group.getChildren().addAll(diag1, diag2);
         group.setCursor(cursor);
