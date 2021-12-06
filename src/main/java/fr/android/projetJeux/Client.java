@@ -12,20 +12,41 @@ import java.net.Socket;
 import java.util.Objects;
 
 public class Client {
+
+    /**
+     *
+     */
     private ObjectOutputStream out;
+
+    /**
+     *
+     */
     private ObjectInputStream in;
 
+    /**
+     *
+     */
     private String pseudo;
-    private final String status = "setup";
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         new Client().start();
     }
 
+    /**
+     *
+     * @return
+     */
     public ObjectOutputStream getOut() {
         return out;
     }
 
+    /**
+     *
+     */
     public void start() {
 
         try {
@@ -62,6 +83,11 @@ public class Client {
         }
     }
 
+    /**
+     *
+     * @param received
+     * @param name
+     */
     public void setGrid(String received,String name) {
         GridGame grid = GridGame.parse(received);
         grid.setNamePlayer(name);
@@ -69,15 +95,27 @@ public class Client {
         Platform.runLater(() -> App.setGrid(grid));
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPseudo() {
         return pseudo;
     }
 
+    /**
+     *
+     * @param pseudo
+     */
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
     }
 
-
+    /**
+     *
+     * @param socket
+     * @return
+     */
     private boolean setIdentifiant(Socket socket) {
 
         try {

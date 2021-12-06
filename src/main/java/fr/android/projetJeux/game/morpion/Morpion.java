@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class Morpion implements IGame {
     /**
-     *
+     * Liste des joueurs connectés.
      */
     private ArrayList<Player> players;
 
@@ -26,12 +26,12 @@ public class Morpion implements IGame {
     private int winline = 0;
 
     /**
-     *
+     * Grille de la partie.
      */
     private final GridGame grid;
 
     /**
-     *
+     * Joueur qui doit jouer.
      */
     private Player currentPlayer;
 
