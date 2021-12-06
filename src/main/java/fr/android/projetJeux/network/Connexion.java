@@ -5,7 +5,6 @@ import fr.android.projetJeux.game.Games;
 import fr.android.projetJeux.game.Player;
 import fr.android.projetJeux.game.Room;
 import fr.android.projetJeux.game.morpion.Morpion;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -25,7 +24,7 @@ public class Connexion implements Runnable{
     private ObjectOutputStream out;
     private ObjectInputStream in;
 
-    public Connexion(@NotNull Socket socket) {
+    public Connexion(Socket socket) {
         this.socket = socket;
         try {
             out = new ObjectOutputStream(socket.getOutputStream());

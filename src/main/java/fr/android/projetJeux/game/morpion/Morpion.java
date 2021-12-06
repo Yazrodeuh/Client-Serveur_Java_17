@@ -3,7 +3,6 @@ package fr.android.projetJeux.game.morpion;
 import fr.android.projetJeux.game.IGame;
 import fr.android.projetJeux.game.Player;
 import fr.android.projetJeux.utils.Code;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,7 +113,7 @@ public class Morpion implements IGame {
     }
 
 
-    private boolean win(@NotNull Coords coords) {
+    private boolean win(Coords coords) {
         return winV(coords.j) || winH(coords.i) || winD(coords);
     }
 
