@@ -1,10 +1,8 @@
 package fr.android.projetJeux;
 
-import fr.android.projetJeux.FX.App;
 import fr.android.projetJeux.game.morpion.Coords;
 import fr.android.projetJeux.game.morpion.GridGame;
 import fr.android.projetJeux.utils.Code;
-import fr.android.projetJeux.utils.SaisieClavier;
 import javafx.application.Platform;
 
 import java.io.IOException;

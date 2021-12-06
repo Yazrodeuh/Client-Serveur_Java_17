@@ -1,10 +1,12 @@
-package fr.android.projetJeux.FX;
+package fr.android.projetJeux;
 
 import fr.android.projetJeux.Client;
 import fr.android.projetJeux.FX.Elements.GameButton;
 import fr.android.projetJeux.FX.Elements.GameInput;
 import fr.android.projetJeux.FX.Elements.GameLine;
 import fr.android.projetJeux.FX.Elements.GameText;
+import fr.android.projetJeux.FX.Pion;
+import fr.android.projetJeux.FX.Spot;
 import fr.android.projetJeux.game.morpion.Coords;
 import fr.android.projetJeux.game.morpion.GridGame;
 import javafx.application.Application;

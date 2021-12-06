@@ -1,5 +1,6 @@
 package fr.android.projetJeux.FX;
 
+import fr.android.projetJeux.App;
 import fr.android.projetJeux.game.morpion.Coords;
 import javafx.scene.Cursor;
 import javafx.scene.paint.Color;
