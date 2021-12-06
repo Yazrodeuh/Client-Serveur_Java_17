@@ -36,7 +36,7 @@ public class Morpion implements IGame {
 
     private void sendInfos(String code) throws IOException {
         for (Player p : players) {
-            p.getOut().writeObject(code + Code.SEPARATOR + grid.toString() + Code.SEPARATOR + currentPlayer.getName() + Code.SEPARATOR + winline);
+            p.getOut().writeObject(code + Code.SEPARATOR.getCodeValue() + grid.toString() + Code.SEPARATOR + currentPlayer.getName() + Code.SEPARATOR + winline);
         }
     }
 
