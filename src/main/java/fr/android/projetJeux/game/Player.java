@@ -6,18 +6,18 @@ import java.net.Socket;
 
 public class Player {
 
-    private String name;
-    private Socket socket;
+    private final String name;
+    private final Socket socket;
     private int numRoom;
 
-    private ObjectOutputStream out;
-    private ObjectInputStream in;
+    private final ObjectOutputStream out;
+    private final ObjectInputStream in;
 
-    public Player (String name, Socket socket,ObjectInputStream in,ObjectOutputStream out){
-        this(name, socket, -1,in,out);
+    public Player(String name, Socket socket, ObjectInputStream in, ObjectOutputStream out) {
+        this(name, socket, -1, in, out);
     }
 
-    public Player(String name, Socket socket, int numRoom, ObjectInputStream in,ObjectOutputStream out){
+    public Player(String name, Socket socket, int numRoom, ObjectInputStream in, ObjectOutputStream out) {
         this.name = name;
         this.socket = socket;
         this.numRoom = numRoom;

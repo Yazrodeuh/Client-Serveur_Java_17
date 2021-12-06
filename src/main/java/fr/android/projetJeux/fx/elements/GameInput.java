@@ -1,4 +1,4 @@
-package fr.android.projetJeux.FX.Elements;
+package fr.android.projetJeux.fx.elements;
 
 import javafx.scene.control.TextField;
 
@@ -8,9 +8,9 @@ public class GameInput extends TextField {
 
     }
 
-    public GameInput(double x, double y,double w, double h) {
-        setPosition(x,y);
-        setDimensions(w,h);
+    public GameInput(double x, double y, double w, double h) {
+        setPosition(x, y);
+        setDimensions(w, h);
     }
 
     public void setPosition(double x, double y) {
@@ -19,7 +19,7 @@ public class GameInput extends TextField {
     }
 
     public void setDimensions(double w, double h) {
-        setMinSize(w,h);
-        setMaxSize(w,h);
+        setMinSize(w, h);
+        setMaxSize(w, h);
     }
 }

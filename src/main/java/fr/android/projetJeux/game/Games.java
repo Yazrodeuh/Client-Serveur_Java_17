@@ -1,17 +1,14 @@
 package fr.android.projetJeux.game;
 
-import fr.android.projetJeux.game.morpion.Morpion;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public enum Games {
 
     Morpion(2);
 
-    private int nbGamers;
+    private final int nbGamers;
 
-    Games(int nbGamers){
+    Games(int nbGamers) {
         this.nbGamers = nbGamers;
     }
 

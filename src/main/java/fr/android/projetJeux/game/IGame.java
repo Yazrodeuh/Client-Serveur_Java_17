@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public interface IGame {
 
     void start(ArrayList<Player> gamers);
+
     void stop(String status) throws IOException;
 
 }

@@ -7,7 +7,6 @@ import java.io.OutputStream;
 public class ObjectOutputStreamRefactor extends ObjectOutputStream {
 
     /**
-     *
      * @param out
      * @throws IOException
      */
@@ -16,7 +15,6 @@ public class ObjectOutputStreamRefactor extends ObjectOutputStream {
     }
 
     /**
-     *
      * @throws IOException
      * @throws SecurityException
      */

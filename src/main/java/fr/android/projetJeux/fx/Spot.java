@@ -1,4 +1,4 @@
-package fr.android.projetJeux.FX;
+package fr.android.projetJeux.fx;
 
 import fr.android.projetJeux.App;
 import fr.android.projetJeux.game.morpion.Coords;
@@ -10,7 +10,7 @@ public class Spot extends Rectangle {
     private final Coords coords;
 
     public Spot(Coords c, double x, double y, double size) {
-        super(x,y,size,size);
+        super(x, y, size, size);
 
         coords = c;
 

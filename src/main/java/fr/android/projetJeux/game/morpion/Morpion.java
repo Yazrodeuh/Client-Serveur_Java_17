@@ -5,17 +5,19 @@ import fr.android.projetJeux.game.Player;
 import fr.android.projetJeux.utils.Code;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
 
 public class Morpion implements IGame {
 
     private ArrayList<Player> players;
-    private HashMap<Player, Character> pion;
+    private final HashMap<Player, Character> pion;
     //private String code = "[Morpion]";
 
     private int winline = 0;
 
-    private GridGame grid;
+    private final GridGame grid;
 
     private Player currentPlayer;
 
@@ -34,7 +36,7 @@ public class Morpion implements IGame {
 
     private void sendInfos(String code) throws IOException {
         for (Player p : players) {
-            p.getOut().writeObject(code + Code.SEPARATOR + grid.toString() + Code.SEPARATOR + currentPlayer.getName() + Code.SEPARATOR + winline );
+            p.getOut().writeObject(code + Code.SEPARATOR + grid.toString() + Code.SEPARATOR + currentPlayer.getName() + Code.SEPARATOR + winline);
         }
     }
 
@@ -57,11 +59,11 @@ public class Morpion implements IGame {
             grid.setNamePlayer(currentPlayer.getName());
 
             for (Player p : players) {
-                p.getOut().writeObject(Code.BEGIN + Code.SEPARATOR + pion.get(p).toString());
+                p.getOut().writeObject(Code.BEGIN.getCodeValue() + Code.SEPARATOR.getCodeValue() + pion.get(p).toString());
             }
 
             while (!finished) {
-                sendInfos(Code.INFOS);
+                sendInfos(Code.INFOS.getCodeValue());
                 Coords coords = (Coords) currentPlayer.getIn().readObject();
                 grid.setMovement(coords, pion.get(currentPlayer));
                 if (win(coords)) {
@@ -95,7 +97,7 @@ public class Morpion implements IGame {
     @Override
     public void stop(String status) throws IOException {
         finished = true;
-        sendInfos(Objects.equals(status, "nul") ? Code.NUL : Code.WINNER);
+        sendInfos(Objects.equals(status, "nul") ? Code.BEGIN.getCodeValue() : Code.WINNER.getCodeValue());
 
     }
 
@@ -166,10 +168,10 @@ public class Morpion implements IGame {
             won = winRD();
         } else if (coords.equals(new Coords(0, 2)) || coords.equals(new Coords(2, 0))) {
             won = winLD();
-        } else if(coords.equals(new Coords(1, 1))){
+        } else if (coords.equals(new Coords(1, 1))) {
             won = winRD() || winLD();
         }
-            return won;
+        return won;
     }
 
 
@@ -180,9 +182,9 @@ public class Morpion implements IGame {
 
     private void preRemplissageDeLaGrillePourNePasAvoirAFaireUnePartieCompleteAvantDArriverALaPartieATester() {
         char[][] chars = {
-                {'O','O', ' '},
-                {'O','X', 'O'},
-                {'X','X', 'O'}
+                {'O', 'O', ' '},
+                {'O', 'X', 'O'},
+                {'X', 'X', 'O'}
         };
 
         grid.setGrid(chars);

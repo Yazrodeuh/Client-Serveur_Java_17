@@ -1,4 +1,4 @@
-package fr.android.projetJeux.FX.Elements;
+package fr.android.projetJeux.fx.elements;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;

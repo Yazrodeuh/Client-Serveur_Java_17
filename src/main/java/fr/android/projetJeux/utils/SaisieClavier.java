@@ -7,16 +7,14 @@ import java.io.InputStreamReader;
 public class SaisieClavier {
 
     /**
-     *
      * @return String|null
      */
-    public static String saisieTerminal(){
+    public static String saisieTerminal() {
 
-        try{
+        try {
             BufferedReader clavier = new BufferedReader(new InputStreamReader(System.in));
             return clavier.readLine();
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             System.exit(0);
             return null;
@@ -28,6 +26,6 @@ public class SaisieClavier {
      */
     public static void main(String[] args) {
         String saisie = SaisieClavier.saisieTerminal();
-        System.out.println("la saisie est : "+saisie);
+        System.out.println("la saisie est : " + saisie);
     }
 }

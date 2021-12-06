@@ -1,4 +1,4 @@
-package fr.android.projetJeux.FX;
+package fr.android.projetJeux.fx;
 
 
 import fr.android.projetJeux.App;
@@ -12,9 +12,9 @@ import javafx.scene.shape.Line;
 public class Pion {
 
     private Node pion;
-    private double x;
-    private double y;
-    private double size;
+    private final double x;
+    private final double y;
+    private final double size;
 
     private Cursor cursor = Cursor.cursor("HAND");
 
@@ -26,23 +26,23 @@ public class Pion {
         this.size = size;
 
         switch (pion) {
-            case 'O' -> o();
-            case 'X' -> x();
+            case 'O' -> this.pion = o();
+            case 'X' -> this.pion = x();
         }
     }
 
-    private void o() {
+    private Circle o() {
         Circle c = new Circle(x + size / 2, y + size / 2, (size - offset * 2) / 2);
         c.setFill(App.background);
         c.setStroke(Color.BLACK);
         c.setStrokeWidth(10);
         c.setCursor(cursor);
 
-        pion = c;
+       return c;
 
     }
 
-    private void x() {
+    private Group x() {
         Group group = new Group();
 
         Line diag1 = new Line(x + offset, y + offset, x + size - offset, y + size - offset);
@@ -55,14 +55,14 @@ public class Pion {
 
         group.getChildren().addAll(diag1, diag2);
         group.setCursor(cursor);
-        pion = group;
+
+        return group;
 
     }
 
     public Node getPion() {
         return pion;
     }
-
 
 
     public void disable() {

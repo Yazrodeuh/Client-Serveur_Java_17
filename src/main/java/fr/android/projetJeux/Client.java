@@ -16,7 +16,7 @@ public class Client {
     private ObjectInputStream in;
 
     private String pseudo;
-    private String status = "setup";
+    private final String status = "setup";
 
     public static void main(String[] args) {
         //launch();
@@ -30,42 +30,37 @@ public class Client {
     public void start() {
 
         try {
-            Socket client = new Socket("127.0.0.1", 4000);
+            Socket client = new Socket("192.168.158.166", 4000);
 
             setIdentifiant(client);
 
             boolean finished = false;
 
             while (!finished) {
-                String[] received = ((String) in.readObject()).split(Code.SEPARATOR);
+                String[] received = ((String) in.readObject()).split(Code.SEPARATOR.getCodeValue());
 
+                if(Objects.equals(received[0], Code.INFOS.getCodeValue())){
+                    GridGame grid = GridGame.parse(received[1]);
+                    grid.setNamePlayer(received[2]);
 
-                switch (received[0]) {
-                    case Code.INFOS -> {
-                        GridGame grid = GridGame.parse(received[1]);
-                        grid.setNamePlayer(received[2]);
+                    Platform.runLater(() -> App.setGrid(grid));
+                }else if (Objects.equals(received[0], Code.WINNER.getCodeValue())){
+                    GridGame grid = GridGame.parse(received[1]);
+                    grid.setNamePlayer(received[2]);
 
-                        Platform.runLater(() -> App.setGrid(grid));
+                    Platform.runLater(() -> App.setGrid(grid));
+                    Platform.runLater(() -> App.setWinner(Integer.parseInt(received[3])));
+                    finished = true;
+                    System.out.println(received[2].equals(pseudo) ? "Félicitation vous avez gagné !" : "Vous avez perdu");
+                }else if(Objects.equals(received[0], Code.BEGIN.getCodeValue())){
+                    System.out.println("Vous êtes " + received[1]);
+                }else if(Objects.equals(received[0], Code.NUL.getCodeValue())) {
+                    GridGame grid = GridGame.parse(received[1]);
+                    grid.setNamePlayer(received[2]);
 
-                    }
-                    case Code.WINNER -> {
-                        GridGame grid = GridGame.parse(received[1]);
-                        grid.setNamePlayer(received[2]);
-
-                        Platform.runLater(() -> App.setGrid(grid));
-                        Platform.runLater(() -> App.setWinner(Integer.parseInt(received[3])));
-                        finished = true;
-                        System.out.println(received[2].equals(pseudo) ? "Félicitation vous avez gagné !" : "Vous avez perdu");
-                    }
-                    case Code.BEGIN -> System.out.println("Vous êtes " + received[1]);
-                    case Code.NUL -> {
-                        GridGame grid = GridGame.parse(received[1]);
-                        grid.setNamePlayer(received[2]);
-
-                        Platform.runLater(() -> App.setGrid(grid));
-                        Platform.runLater(App::setMatchNul);
-                        finished = true;
-                    }
+                    Platform.runLater(() -> App.setGrid(grid));
+                    Platform.runLater(App::setMatchNul);
+                    finished = true;
                 }
             }
         } catch (Exception e) {
@@ -100,8 +95,7 @@ public class Client {
                 String message = (String) in.readObject();
 
 
-
-                if(Objects.equals(message, "SERVER FULL")){
+                if (Objects.equals(message, "SERVER FULL")) {
                     System.out.println(message);
                     socket.close();
                     break;

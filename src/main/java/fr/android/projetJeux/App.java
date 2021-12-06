@@ -1,22 +1,17 @@
 package fr.android.projetJeux;
 
-import fr.android.projetJeux.Client;
-import fr.android.projetJeux.FX.Elements.GameButton;
-import fr.android.projetJeux.FX.Elements.GameInput;
-import fr.android.projetJeux.FX.Elements.GameLine;
-import fr.android.projetJeux.FX.Elements.GameText;
-import fr.android.projetJeux.FX.Pion;
-import fr.android.projetJeux.FX.Spot;
+import fr.android.projetJeux.fx.elements.GameButton;
+import fr.android.projetJeux.fx.elements.GameInput;
+import fr.android.projetJeux.fx.elements.GameLine;
+import fr.android.projetJeux.fx.elements.GameText;
+import fr.android.projetJeux.fx.Pion;
+import fr.android.projetJeux.fx.Spot;
 import fr.android.projetJeux.game.morpion.Coords;
 import fr.android.projetJeux.game.morpion.GridGame;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -44,12 +39,12 @@ public class App extends Application {
         stage.show();
         new Thread(() -> client.start()).start();
 
-        error.setPosition(25,sizeY * 0.7);
+        error.setPosition(25, sizeY * 0.7);
         error.setTextFill(Color.RED);
         error.setFontSize(25);
         errorGroup.getChildren().add(error);
 
-        group.getChildren().addAll(contentGroup,errorGroup);
+        group.getChildren().addAll(contentGroup, errorGroup);
 
     }
 
@@ -57,13 +52,13 @@ public class App extends Application {
         contentGroup.getChildren().clear();
 
         GameText label = new GameText("Pseudo");
-        label.setPosition(15,sizeY / 2);
+        label.setPosition(15, sizeY / 2);
         label.setFontSize(25);
 
-        GameInput field = new GameInput(100, sizeY / 2, sizeX - 200,40);
+        GameInput field = new GameInput(100, sizeY / 2, sizeX - 200, 40);
 
         GameButton submit = new GameButton("Valider");
-        submit.setPosition(field.getMinWidth() + field.getLayoutX() - 60,field.getLayoutY() + 45);
+        submit.setPosition(field.getMinWidth() + field.getLayoutX() - 60, field.getLayoutY() + 45);
         submit.setOnAction(actionEvent -> {
             try {
                 client.setPseudo(field.getText());
@@ -74,7 +69,7 @@ public class App extends Application {
         });
 
 
-        contentGroup.getChildren().addAll(field,label,submit);
+        contentGroup.getChildren().addAll(field, label, submit);
     }
 
     public static void hidePseudo() {
@@ -82,7 +77,7 @@ public class App extends Application {
 
         GameText message = new GameText("En attente d'adversaire");
         message.setFontSize(30);
-        message.setPosition(sizeX / 3,sizeY / 2);
+        message.setPosition(sizeX / 3, sizeY / 2);
 
         contentGroup.getChildren().add(message);
     }
@@ -105,31 +100,31 @@ public class App extends Application {
         double y = 25 + (sizeY - size * 3) / 2;
 
         text = new GameText(grid.getNamePlayer().equals(client.getPseudo()) ? "Votre tour choisir case" : "Au tour de votre adversaire, veuillez patienter");
-        text.setPosition(xDepart,25);
+        text.setPosition(xDepart, 25);
         text.setFontSize(25);
 
         contentGroup.getChildren().add(text);
 
         double xLine = xDepart + size / 2;
-        double yLine = y -25;
+        double yLine = y - 25;
         double lineSize = size * 3 + 50;
         for (int i = 0; i < 3; i++) {
-            lineList[i] = new GameLine(xLine, yLine,xLine,yLine + lineSize);
+            lineList[i] = new GameLine(xLine, yLine, xLine, yLine + lineSize);
             xLine += size;
         }
 
         xLine = xDepart - 25;
         yLine = y + size / 2;
         for (int i = 3; i < 6; i++) {
-            lineList[i] = new GameLine(xLine, yLine,xLine + lineSize,yLine);
+            lineList[i] = new GameLine(xLine, yLine, xLine + lineSize, yLine);
             yLine += size;
         }
 
         xLine = xDepart - 25;
         yLine = y - 25;
 
-        lineList[6] = new GameLine(xLine, yLine,xLine + lineSize,yLine + lineSize);
-        lineList[7] = new GameLine(xLine + lineSize,yLine,xLine, yLine + lineSize);
+        lineList[6] = new GameLine(xLine, yLine, xLine + lineSize, yLine + lineSize);
+        lineList[7] = new GameLine(xLine + lineSize, yLine, xLine, yLine + lineSize);
 
 
         group.getChildren().addAll(Arrays.asList(lineList));
@@ -138,7 +133,7 @@ public class App extends Application {
         for (char[] row : grid.getGrid()) {
             double x = xDepart;
             for (char pion : row) {
-                Spot spot = new Spot(new Coords(i,j),x, y, size);
+                Spot spot = new Spot(new Coords(i, j), x, y, size);
                 contentGroup.getChildren().add(spot);
                 if (pion != ' ') {
                     Pion p = new Pion(pion, x, y, size);
@@ -170,6 +165,7 @@ public class App extends Application {
         lineList[index].setVisible(true);
         text.setText(grid.getNamePlayer().equals(client.getPseudo()) ? "Félicitation vous avez gagné" : "Vous avez perdu");
     }
+
     public static void setMatchNul() {
         text.setText("Match Nul");
     }

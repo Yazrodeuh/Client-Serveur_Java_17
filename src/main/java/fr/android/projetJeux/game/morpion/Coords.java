@@ -5,9 +5,9 @@ import java.util.Objects;
 
 public class Coords implements Serializable {
 
-    public int i,j;
+    public int i, j;
 
-    public Coords (int i, int j) {
+    public Coords(int i, int j) {
         this.i = i;
         this.j = j;
     }

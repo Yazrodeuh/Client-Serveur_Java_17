@@ -1,7 +1,6 @@
 package fr.android.projetJeux.network;
 
 import fr.android.projetJeux.Server;
-import fr.android.projetJeux.game.Games;
 import fr.android.projetJeux.game.Player;
 import fr.android.projetJeux.game.Room;
 import fr.android.projetJeux.game.morpion.Morpion;
@@ -11,14 +10,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Connexion implements Runnable{
+public class Connexion implements Runnable {
 
-    private Socket socket;
+    private final Socket socket;
 
     private static final ArrayList<Room> rooms = new ArrayList<>();
     private ObjectOutputStream out;
@@ -35,8 +33,6 @@ public class Connexion implements Runnable{
     }
 
 
-
-
     @Override
     public void run() {
 
@@ -51,7 +47,7 @@ public class Connexion implements Runnable{
                         ArrayList<Player> gamers = new ArrayList<>();
                         gamers.add(player);
                         gamers.add(p);
-                        Room room = new Room(new Morpion(),gamers);
+                        Room room = new Room(new Morpion(), gamers);
                         Server.rooms.add(room);
                         System.out.println("STARTING ROOM with: " + gamers);
                         ExecutorService es = Executors.newSingleThreadExecutor();
@@ -65,11 +61,9 @@ public class Connexion implements Runnable{
             }
 
 
-
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
 
 
         //startConnexion();
@@ -78,7 +72,7 @@ public class Connexion implements Runnable{
 
     private boolean playerExists(String pseudo) throws IOException {
         for (Player p : Server.players) {
-            if(Objects.equals(pseudo, p.getName())) {
+            if (Objects.equals(pseudo, p.getName())) {
                 out.writeObject("Le joueur existe");
                 return true;
             }
@@ -92,9 +86,9 @@ public class Connexion implements Runnable{
         do {
             out.writeObject("Entrez un pseudo");
             pseudo = (String) in.readObject();
-        }while (playerExists(pseudo));
+        } while (playerExists(pseudo));
 
-        Player player = new Player(pseudo, socket,in,out);
+        Player player = new Player(pseudo, socket, in, out);
 
         Server.players.add(player);
 

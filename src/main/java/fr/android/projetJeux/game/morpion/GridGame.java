@@ -1,16 +1,14 @@
 package fr.android.projetJeux.game.morpion;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class GridGame implements Serializable {
 
     private String namePlayer;
     private char[][] grid;
 
-    public GridGame(){
+    public GridGame() {
         this.grid = new char[3][3];
 
         for (char[] chars : grid) {
@@ -25,7 +23,7 @@ public class GridGame implements Serializable {
         for (int i = 0; i < lines.length; i++) {
             String[] chars = lines[i].split(" \\| ");
             for (int j = 0; j < chars.length; j++) {
-                parsed.setMovement(new Coords(i,j), chars[j].charAt(0));
+                parsed.setMovement(new Coords(i, j), chars[j].charAt(0));
             }
         }
         return parsed;
@@ -47,7 +45,7 @@ public class GridGame implements Serializable {
         return grid[coord.i][coord.j] == ' ';
     }
 
-    public void setMovement(Coords coord, char pion){
+    public void setMovement(Coords coord, char pion) {
         grid[coord.i][coord.j] = pion;
     }
 
@@ -56,12 +54,11 @@ public class GridGame implements Serializable {
     }
 
 
-
     @Override
     public String toString() {
-        return      grid[0][0] + " | " + grid[0][1] + " | " + grid[0][2] + "\n"
-                +   grid[1][0] + " | " + grid[1][1] + " | " + grid[1][2] + "\n"
-                +   grid[2][0] + " | " + grid[2][1] + " | " + grid[2][2] + "\n";
+        return grid[0][0] + " | " + grid[0][1] + " | " + grid[0][2] + "\n"
+                + grid[1][0] + " | " + grid[1][1] + " | " + grid[1][2] + "\n"
+                + grid[2][0] + " | " + grid[2][1] + " | " + grid[2][2] + "\n";
     }
 
     public static void main(String[] args) {

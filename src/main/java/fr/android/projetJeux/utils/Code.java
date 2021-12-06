@@ -1,9 +1,20 @@
 package fr.android.projetJeux.utils;
 
-public class Code {
-    public static final String BEGIN = "[begin]";
-    public static final String INFOS = "[infos]";
-    public static final String WINNER = "[winner]";
-    public static final String NUL = "[nul]";
-    public static final String SEPARATOR = "#";
+public enum Code {
+
+    BEGIN("[begin]"),
+    INFOS("[infos]"),
+    WINNER("[winner]"),
+    NUL("[nul]"),
+    SEPARATOR("#");
+
+    private final String codeValue;
+
+    Code(String codeValue){
+        this.codeValue = codeValue;
+    }
+
+    public String getCodeValue() {
+        return codeValue;
+    }
 }

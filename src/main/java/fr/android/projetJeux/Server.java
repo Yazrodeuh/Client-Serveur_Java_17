@@ -5,7 +5,6 @@ import fr.android.projetJeux.game.Room;
 import fr.android.projetJeux.network.Connexion;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -42,19 +41,18 @@ public class Server {
         ExecutorService es = Executors.newFixedThreadPool(Server.nbPlayers);
 
 
-
         try {
-                try {
-                    while (true) {
+            try {
+                while (true) {
 
-                        Socket client = server.accept();
-                        es.execute(new Connexion(client));
+                    Socket client = server.accept();
+                    es.execute(new Connexion(client));
 
-                    }
-
-                }catch (IOException e) {
-                    e.printStackTrace();
                 }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } finally {
             try {
                 server.close();
