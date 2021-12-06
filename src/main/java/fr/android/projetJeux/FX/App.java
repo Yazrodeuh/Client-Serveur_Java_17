@@ -42,8 +42,7 @@ public class App extends Application {
         stage.show();
         new Thread(() -> client.start()).start();
 
-        error.setLayoutX(25);
-        error.setLayoutY(sizeY * 0.7);
+        error.setPosition(25,sizeY * 0.7);
         error.setTextFill(Color.RED);
         error.setFontSize(25);
         errorGroup.getChildren().add(error);
