@@ -19,7 +19,6 @@ public class Client {
     private final String status = "setup";
 
     public static void main(String[] args) {
-        //launch();
         new Client().start();
     }
 
@@ -45,7 +44,13 @@ public class Client {
                     Platform.runLater(() -> App.setWinner(Integer.parseInt(received[3])));
                     finished = true;
                     System.out.println(received[2].equals(pseudo) ? "Félicitation vous avez gagné !" : "Vous avez perdu");
+                }else if(Objects.equals(received[0], Code.BEGIN.getCodeValue())){
+                    System.out.println("Vous êtes " + received[1]);
                 }else if(Objects.equals(received[0], Code.NUL.getCodeValue())) {
+                    GridGame grid = GridGame.parse(received[1]);
+                    grid.setNamePlayer(received[2]);
+
+                    Platform.runLater(() -> App.setGrid(grid));
                     Platform.runLater(App::setMatchNul);
                     finished = true;
                 }
@@ -53,6 +58,7 @@ public class Client {
         } catch (Exception e) {
             e.printStackTrace();
             Platform.runLater(() -> App.displayErrorMessage("SERVER NOT FOUND\nPlease start the server, then restart the application"));
+            //Software.getMessages().setText();
         }
     }
 
@@ -69,11 +75,6 @@ public class Client {
 
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
-    }
-
-    public void send(Coords c) throws IOException {
-        out.writeObject(c);
-
     }
 
 
@@ -111,6 +112,4 @@ public class Client {
         return false;
 
     }
-
-
 }

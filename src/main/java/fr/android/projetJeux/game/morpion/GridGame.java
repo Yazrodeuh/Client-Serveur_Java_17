@@ -3,11 +3,23 @@ package fr.android.projetJeux.game.morpion;
 import java.io.Serializable;
 import java.util.Arrays;
 
+/**
+ *
+ */
 public class GridGame implements Serializable {
-
+    /**
+     *
+     */
     private String namePlayer;
+
+    /**
+     *
+     */
     private char[][] grid;
 
+    /**
+     *
+     */
     public GridGame() {
         this.grid = new char[3][3];
 
@@ -17,6 +29,11 @@ public class GridGame implements Serializable {
 
     }
 
+    /**
+     *
+     * @param str
+     * @return
+     */
     public static GridGame parse(String str) {
         GridGame parsed = new GridGame();
         String[] lines = str.split("\n");
@@ -29,31 +46,60 @@ public class GridGame implements Serializable {
         return parsed;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNamePlayer() {
         return namePlayer;
     }
 
+    /**
+     *
+     * @return
+     */
     public char[][] getGrid() {
         return grid;
     }
 
+    /**
+     *
+     * @param grid
+     */
     public void setGrid(char[][] grid) {
         this.grid = grid;
     }
 
+    /**
+     *
+     * @param coord
+     * @return
+     */
     public boolean isValid(Coords coord) {
         return grid[coord.i][coord.j] == ' ';
     }
 
+    /**
+     *
+     * @param coord
+     * @param pion
+     */
     public void setMovement(Coords coord, char pion) {
         grid[coord.i][coord.j] = pion;
     }
 
+    /**
+     *
+     * @param namePlayer
+     */
     public void setNamePlayer(String namePlayer) {
         this.namePlayer = namePlayer;
     }
 
-
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return grid[0][0] + " | " + grid[0][1] + " | " + grid[0][2] + "\n"
@@ -61,6 +107,10 @@ public class GridGame implements Serializable {
                 + grid[2][0] + " | " + grid[2][1] + " | " + grid[2][2] + "\n";
     }
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         String grid = "X | O | X\nX | O | X\nO | X | O\n";
         GridGame gridGame = GridGame.parse(grid);

@@ -6,9 +6,23 @@ import javafx.scene.Cursor;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ *
+ */
 public class Spot extends Rectangle {
+
+    /**
+     *
+     */
     private final Coords coords;
 
+    /**
+     *
+     * @param c
+     * @param x
+     * @param y
+     * @param size
+     */
     public Spot(Coords c, double x, double y, double size) {
         super(x, y, size, size);
 

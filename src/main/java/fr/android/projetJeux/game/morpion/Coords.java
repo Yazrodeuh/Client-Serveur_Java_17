@@ -3,15 +3,31 @@ package fr.android.projetJeux.game.morpion;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ *
+ */
 public class Coords implements Serializable {
 
+    /**
+     *
+     */
     public int i, j;
 
+    /**
+     *
+     * @param i
+     * @param j
+     */
     public Coords(int i, int j) {
         this.i = i;
         this.j = j;
     }
 
+    /**
+     *
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -20,11 +36,19 @@ public class Coords implements Serializable {
         return i == coords.i && j == coords.j;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         return Objects.hash(i, j);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "(" + i + " " + j + ")";

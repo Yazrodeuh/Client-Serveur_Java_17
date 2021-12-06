@@ -8,12 +8,23 @@ public enum Code {
     NUL("[nul]"),
     SEPARATOR("#");
 
+    /**
+     *
+     */
     private final String codeValue;
 
+    /**
+     *
+     * @param codeValue
+     */
     Code(String codeValue){
         this.codeValue = codeValue;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCodeValue() {
         return codeValue;
     }

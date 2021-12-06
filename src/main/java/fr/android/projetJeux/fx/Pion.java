@@ -31,6 +31,10 @@ public class Pion {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     private Circle o() {
         Circle c = new Circle(x + size / 2, y + size / 2, (size - offset * 2) / 2);
         c.setFill(App.background);
@@ -42,6 +46,10 @@ public class Pion {
 
     }
 
+    /**
+     *
+     * @return
+     */
     private Group x() {
         Group group = new Group();
 
@@ -60,11 +68,17 @@ public class Pion {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public Node getPion() {
         return pion;
     }
 
-
+    /**
+     *
+     */
     public void disable() {
         this.cursor = Cursor.cursor("");
     }
