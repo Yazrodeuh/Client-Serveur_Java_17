@@ -4,30 +4,30 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- *
+ * Couple i,j pour des coordonnées de tableau
  */
 public class Coords implements Serializable {
 
     /**
-     *
+     * ligne
      */
-    public int i, j;
+    public int i;
 
     /**
-     *
-     * @param i
-     * @param j
+     * colonne
+     */
+    public int j;
+
+    /**
+     * Constructeur
+     * @param i ligne
+     * @param j colonne
      */
     public Coords(int i, int j) {
         this.i = i;
         this.j = j;
     }
 
-    /**
-     *
-     * @param o
-     * @return
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -36,19 +36,11 @@ public class Coords implements Serializable {
         return i == coords.i && j == coords.j;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         return Objects.hash(i, j);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return "(" + i + " " + j + ")";

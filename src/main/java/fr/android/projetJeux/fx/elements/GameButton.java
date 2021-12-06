@@ -2,23 +2,26 @@ package fr.android.projetJeux.fx.elements;
 
 import javafx.scene.control.Button;
 
+/**
+ * Bouton dans le jeu
+ */
 public class GameButton extends Button {
 
     /**
-     *
-     * @param text
+     * Constructeur
+     * @param text texte du bouton
      */
     public GameButton(String text) {
         super(text);
     }
 
     /**
-     *
-     * @param text
-     * @param x
-     * @param y
-     * @param w
-     * @param h
+     * Constructeur
+     * @param text texte du bouton
+     * @param x coordonnée x
+     * @param y coordonnée y
+     * @param w largeur
+     * @param h hauteur
      */
     public GameButton(String text, double x, double y, double w, double h) {
         this(text);
@@ -27,9 +30,9 @@ public class GameButton extends Button {
     }
 
     /**
-     *
-     * @param x
-     * @param y
+     * Définit la position
+     * @param x coordonnée x
+     * @param y coordonnée y
      */
     public void setPosition(double x, double y) {
         setLayoutX(x);
@@ -37,9 +40,9 @@ public class GameButton extends Button {
     }
 
     /**
-     *
-     * @param w
-     * @param h
+     * Définit la taille
+     * @param w largeur
+     * @param h hauteur
      */
     public void setDimensions(double w, double h) {
         setMinSize(w, h);

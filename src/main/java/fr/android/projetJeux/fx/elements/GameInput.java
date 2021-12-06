@@ -5,18 +5,18 @@ import javafx.scene.control.TextField;
 public class GameInput extends TextField {
 
     /**
-     *
+     * Champs de Texte
      */
     public GameInput() {
 
     }
 
     /**
-     *
-     * @param x
-     * @param y
-     * @param w
-     * @param h
+     * Constructeur
+     * @param x coordonnée x
+     * @param y coordonnée y
+     * @param w largeur
+     * @param h hauteur
      */
     public GameInput(double x, double y, double w, double h) {
         setPosition(x, y);
@@ -24,9 +24,9 @@ public class GameInput extends TextField {
     }
 
     /**
-     *
-     * @param x
-     * @param y
+     * Définit la position
+     * @param x coordonnée x
+     * @param y coordonnée y
      */
     public void setPosition(double x, double y) {
         setLayoutX(x);
@@ -34,9 +34,9 @@ public class GameInput extends TextField {
     }
 
     /**
-     *
-     * @param w
-     * @param h
+     * Définit la taille
+     * @param w largeur
+     * @param h hauteur
      */
     public void setDimensions(double w, double h) {
         setMinSize(w, h);

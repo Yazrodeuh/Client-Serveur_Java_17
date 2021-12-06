@@ -11,15 +11,40 @@ import javafx.scene.shape.Line;
 
 public class Pion {
 
+    /**
+     * affichage du pion
+     */
     private Node pion;
+    /**
+     * cooordonée x
+     */
     private final double x;
+    /**
+     * cooordonée y
+     */
     private final double y;
+    /**
+     * taille
+     */
     private final double size;
 
+    /**
+     * cursor de survol
+     */
     private Cursor cursor = Cursor.cursor("HAND");
 
+    /**
+     * décalage du bord de la case
+     */
     private static final double offset = 10;
 
+    /**
+     * Constructeur
+     * @param pion affichage du pion
+     * @param x cooordonée x
+     * @param y cooordonée y
+     * @param size taille
+     */
     public Pion(char pion, double x, double y, double size) {
         this.x = x;
         this.y = y;
@@ -32,8 +57,8 @@ public class Pion {
     }
 
     /**
-     *
-     * @return
+     * Le pion devient un cercle
+     * @return cercle
      */
     private Circle o() {
         Circle c = new Circle(x + size / 2, y + size / 2, (size - offset * 2) / 2);
@@ -47,8 +72,8 @@ public class Pion {
     }
 
     /**
-     *
-     * @return
+     * Le pion devient une croix
+     * @return croix
      */
     private Group x() {
         Group group = new Group();
@@ -69,8 +94,8 @@ public class Pion {
     }
 
     /**
-     *
-     * @return
+     * getter pion
+     * @return pion
      */
     public Node getPion() {
         return pion;

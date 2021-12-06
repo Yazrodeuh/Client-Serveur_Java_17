@@ -14,43 +14,37 @@ import java.util.Objects;
 public class Client {
 
     /**
-     *
+     * flux de sortie
      */
     private ObjectOutputStream out;
 
     /**
-     *
+     * flux d'entrée
      */
     private ObjectInputStream in;
 
     /**
-     *
+     * pseudo du client
      */
     private String pseudo;
 
-    /**
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        new Client().start();
-    }
+
 
     /**
-     *
-     * @return
+     * getter out
+     * @return out
      */
     public ObjectOutputStream getOut() {
         return out;
     }
 
     /**
-     *
+     * démarre le client
      */
     public void start() {
 
         try {
-            Socket client = new Socket("192.168.158.166", 4000);
+            Socket client = new Socket("127.0.0.1", 4000);
 
             setIdentifiant(client);
 
@@ -65,8 +59,6 @@ public class Client {
                     Platform.runLater(() -> App.setWinner(Integer.parseInt(received[3])));
                     finished = true;
                     System.out.println(received[2].equals(pseudo) ? "Félicitation vous avez gagné !" : "Vous avez perdu");
-                }else if(Objects.equals(received[0], Code.BEGIN.getCodeValue())){
-                    System.out.println("Vous êtes " + received[1]);
                 }else if(Objects.equals(received[0], Code.NUL.getCodeValue())) {
                     GridGame grid = GridGame.parse(received[1]);
                     grid.setNamePlayer(received[2]);
@@ -84,9 +76,9 @@ public class Client {
     }
 
     /**
-     *
-     * @param received
-     * @param name
+     * Envoie la grille récu à l'app pour l'afficher
+     * @param received grille
+     * @param name pseudo du joueur courant
      */
     public void setGrid(String received,String name) {
         GridGame grid = GridGame.parse(received);
@@ -96,25 +88,25 @@ public class Client {
     }
 
     /**
-     *
-     * @return
+     * getter pseudo
+     * @return pseudo
      */
     public String getPseudo() {
         return pseudo;
     }
 
     /**
-     *
-     * @param pseudo
+     * setter pseudo
+     * @param pseudo pseudo
      */
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
     }
 
     /**
-     *
-     * @param socket
-     * @return
+     * échange avec le server pour le pseudo
+     * @param socket socket du client
+     * @return true
      */
     private boolean setIdentifiant(Socket socket) {
 

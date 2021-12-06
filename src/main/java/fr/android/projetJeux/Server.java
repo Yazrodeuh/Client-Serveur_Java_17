@@ -20,9 +20,7 @@ public class Server {
     public static ArrayList<Room> rooms;
     public static int nbPlayers = 20;
 
-    /**
-     *
-     */
+
     public static void main(String[] args) {
 
         ServerSocket server = null;
