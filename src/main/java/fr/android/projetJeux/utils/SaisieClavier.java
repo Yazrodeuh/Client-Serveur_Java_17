@@ -21,9 +21,6 @@ public class SaisieClavier {
         }
     }
 
-    /**
-     *
-     */
     public static void main(String[] args) {
         String saisie = SaisieClavier.saisieTerminal();
         System.out.println("la saisie est : " + saisie);

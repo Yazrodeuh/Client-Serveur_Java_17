@@ -16,12 +16,29 @@ import java.util.concurrent.Executors;
 
 public class Connexion implements Runnable {
 
+    /**
+     * socket du client
+     */
     private final Socket socket;
 
+    /**
+     * liste des salles de jeux
+     */
     private static final ArrayList<Room> rooms = new ArrayList<>();
+    /**
+     * flux de sortie
+     */
     private ObjectOutputStream out;
+
+    /**
+     * flux d'entrée
+     */
     private ObjectInputStream in;
 
+    /**
+     * Constructeur
+     * @param socket socket du client
+     */
     public Connexion(Socket socket) {
         this.socket = socket;
         try {
@@ -70,6 +87,12 @@ public class Connexion implements Runnable {
 
     }
 
+    /**
+     * Vérifie si le pseudo entré existe déjà
+     * @param pseudo pseudo du joueur
+     * @return true si existe, false sinon
+     * @throws IOException en case de problème d'E/S
+     */
     private boolean playerExists(String pseudo) throws IOException {
         for (Player p : Server.players) {
             if (Objects.equals(pseudo, p.getName())) {
@@ -80,6 +103,12 @@ public class Connexion implements Runnable {
         return false;
     }
 
+    /**
+     * Créer un nouveau joueur associé au client
+     * @return Player
+     * @throws IOException  en case de problème d'E/S
+     * @throws ClassNotFoundException
+     */
     private Player newPlayer() throws IOException, ClassNotFoundException {
         String pseudo;
 

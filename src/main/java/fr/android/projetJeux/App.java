@@ -21,20 +21,55 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class App extends Application {
+    /**
+     * couleur de fond
+     */
     public static Color background = Color.GRAY;
+    /**
+     * largeur
+     */
     public static double sizeX = 600;
+    /**
+     * hauteur
+     */
     public static double sizeY = 600;
+    /**
+     * conteneur de tous les éléments
+     */
     public static Group group = new Group();
+    /**
+     * conteneur des éléments
+     */
     public static Group contentGroup = new Group();
+    /**
+     * conteneur du message erreur
+     */
     public static Group errorGroup = new Group();
-
+    /**
+     * client
+     */
     public static Client client = new Client();
+    /**
+     * la game
+     */
     public static GridGame grid;
+    /**
+     * informations sur le jeu
+     */
     private static GameText text;
+    /**
+     * message d'erreur
+     */
     private static final GameText error = new GameText();
-
+    /**
+     *  liste des lignes de victoire
+     */
     private static final GameLine[] lineList = new GameLine[8];
 
+    /**
+     * démarrage de l'app
+     * @param stage stage
+     */
     @Override
     public void start(Stage stage) {
         stage.setScene(new Scene(group, sizeX, sizeY, background));
@@ -56,6 +91,9 @@ public class App extends Application {
 
     }
 
+    /**
+     * Afficher le textField pour entrer le pseudo
+     */
     public static void displayPseudoField() {
         contentGroup.getChildren().clear();
 
@@ -80,6 +118,10 @@ public class App extends Application {
         contentGroup.getChildren().addAll(field, label, submit);
     }
 
+    /**
+     * cache le textField pour le pseudo et affiche en attente d'adversaire si attente il y a
+     */
+
     public static void hidePseudo() {
         contentGroup.getChildren().clear();
 
@@ -90,14 +132,26 @@ public class App extends Application {
         contentGroup.getChildren().add(message);
     }
 
+    /**
+     * affiche un message d'erreur
+     * @param message message d'erreur
+     */
+
     public static void displayErrorMessage(String message) {
         error.setText(message);
     }
 
+    /**
+     * cache l'erreur
+     */
     public static void hideError() {
         error.setText("");
     }
 
+    /**
+     * créée l'affichage de la grille avec les infos en parametres
+     * @param g grille
+     */
     public static void setGrid(GridGame g) {
         grid = g;
         contentGroup.getChildren().clear();
@@ -156,6 +210,12 @@ public class App extends Application {
         }
     }
 
+    /**
+     * envoie les coordonnées de la case sélectionée
+     * @param c coordonnées
+     * @throws IOException en case de problème d'E/S
+     */
+
     public static void sendCoords(Coords c) throws IOException {
 
         if (grid.isValid(c)) {
@@ -169,11 +229,18 @@ public class App extends Application {
 
     }
 
+    /**
+     * affiche une ligne sur la ligne gagnante
+     * @param index num de la ligne gagnante
+     */
     public static void setWinner(int index) {
         lineList[index].setVisible(true);
         text.setText(grid.getNamePlayer().equals(client.getPseudo()) ? "Félicitation vous avez gagné" : "Vous avez perdu");
     }
 
+    /**
+     * affiche match nul
+     */
     public static void setMatchNul() {
         text.setText("Match Nul");
     }

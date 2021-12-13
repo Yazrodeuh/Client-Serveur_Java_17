@@ -3,29 +3,29 @@ package fr.android.projetJeux.fx.elements;
 import javafx.scene.control.Label;
 
 /**
- *
+ * Texte du jeu
  */
 public class GameText extends Label {
 
     /**
-     *
+     * Constructeur
      */
     public GameText() {
 
     }
 
     /**
-     *
-     * @param text
+     * Constructeur
+     * @param text texte
      */
     public GameText(String text) {
         super(text);
     }
 
     /**
-     *
-     * @param x
-     * @param y
+     * Définit la position
+     * @param x coordonnée x
+     * @param y coordonnée y
      */
     public void setPosition(double x, double y) {
         setLayoutX(x);
@@ -33,8 +33,8 @@ public class GameText extends Label {
     }
 
     /**
-     *
-     * @param size
+     * Taille du texte
+     * @param size taille
      */
     public void setFontSize(int size) {
         setStyle("-fx-font-size: " + size + "px");

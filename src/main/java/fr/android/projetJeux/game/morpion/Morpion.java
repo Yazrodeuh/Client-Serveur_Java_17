@@ -16,12 +16,12 @@ public class Morpion implements IGame {
     private ArrayList<Player> players;
 
     /**
-     *
+     * liste des charactères possibles
      */
     private final HashMap<Player, Character> pion;
 
     /**
-     *
+     * numéro de la ligne gagnante (vaut 0 tant que le jeu n'est pas terminé)
      */
     private int winline = 0;
 
@@ -36,12 +36,12 @@ public class Morpion implements IGame {
     private Player currentPlayer;
 
     /**
-     *
+     * booléen qui indique si le jeu est en cours ou terminé
      */
     private boolean finished = false;
 
     /**
-     *
+     * Contructeur
      */
     public Morpion() {
         grid = new GridGame();
@@ -51,9 +51,9 @@ public class Morpion implements IGame {
 
 
     /**
-     *
-     * @param code
-     * @throws IOException
+     * Envoie les infos au client
+     * @param code Code qui indique au client la nature du message
+     * @throws IOException en cas de problème d'entrée / sortie
      */
     private void sendInfos(String code) throws IOException {
         for (Player p : players) {
@@ -69,8 +69,8 @@ public class Morpion implements IGame {
     }
 
     /**
-     *
-     * @param gamers
+     * Démmare le jeu
+     * @param gamers liste des joueurs de la partie
      */
     @Override
     public void start(ArrayList<Player> gamers) {
@@ -109,15 +109,15 @@ public class Morpion implements IGame {
     }
 
     /**
-     *
-     * @return
+     * Récupère le joueur suivant
+     * @return Joueur suivant
      */
     private Player getNextPlayer() {
         return players.get((players.indexOf(currentPlayer) + 1) % 2);
     }
 
     /**
-     *
+     * change la valeur du joueur courant
      */
     private void nextPlayer() {
         currentPlayer = getNextPlayer();
@@ -125,20 +125,20 @@ public class Morpion implements IGame {
     }
 
     /**
-     *
-     * @param status
-     * @throws IOException
+     * Arrête le jeu et envoie la grille ainsi que le pseudo du gagnant
+     * @param status win ou nul, indique s'il y a un gagnant ou si le match est nul pour envoi l'info correspondante
+     * @throws IOException en cas de problème d'E/S
      */
     @Override
     public void stop(String status) throws IOException {
         finished = true;
-        sendInfos(Objects.equals(status, "nul") ? Code.BEGIN.getCodeValue() : Code.WINNER.getCodeValue());
+        sendInfos(Objects.equals(status, "nul") ? Code.NUL.getCodeValue() : Code.WINNER.getCodeValue());
 
     }
 
     /**
-     *
-     * @return
+     * Vérifie si le match est nul
+     * @return true si match null, false sinon
      */
     private boolean matchNul() {
         char[][] grille = grid.getGrid();
@@ -154,18 +154,18 @@ public class Morpion implements IGame {
     }
 
     /**
-     *
-     * @param coords
-     * @return
+     * Vérifie s'il y a un gagnant
+     * @param coords Cooordonnée de la dernière case jouée
+     * @return true si c'est gagné, false sinon
      */
     private boolean win(Coords coords) {
         return winV(coords.j) || winH(coords.i) || winD(coords);
     }
 
     /**
-     *
-     * @param j
-     * @return
+     * Vérification des colonnnes
+     * @param j num de la colonne
+     * @return true si c'est gagné, false sinon
      */
     private boolean winV(int j) {
         boolean win = Objects.equals(grid.getGrid()[0][j], grid.getGrid()[1][j]) &&
@@ -178,9 +178,9 @@ public class Morpion implements IGame {
     }
 
     /**
-     *
-     * @param i
-     * @return
+     * Vérification des lignes
+     * @param i num de la ligne
+     * @return true si c'est gagné, false sinon
      */
     private boolean winH(int i) {
         boolean win = Objects.equals(grid.getGrid()[i][0], grid.getGrid()[i][1]) &&
@@ -194,8 +194,8 @@ public class Morpion implements IGame {
     }
 
     /**
-     *
-     * @return
+     * Vérification de la diagonale droite
+     * @return true si c'est gagné, false sinon
      */
     private boolean winRD() {
         boolean win = Objects.equals(grid.getGrid()[0][0], grid.getGrid()[1][1]) &&
@@ -209,8 +209,8 @@ public class Morpion implements IGame {
     }
 
     /**
-     *
-     * @return
+     * Vérification de la diagonale gauche
+     * @return true si c'est gagné, false sinon
      */
     private boolean winLD() {
         boolean win = Objects.equals(grid.getGrid()[0][2], grid.getGrid()[1][1]) &&
@@ -224,9 +224,8 @@ public class Morpion implements IGame {
     }
 
     /**
-     *
-     * @param coords
-     * @return
+     * Vérification des diagonales
+     * @return true si c'est gagné, false sinon
      */
     private boolean winD(Coords coords) {
         boolean won = false;
@@ -240,17 +239,13 @@ public class Morpion implements IGame {
         return won;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return "Morpion{}";
     }
 
     /**
-     *
+     * pre Remplissage De La Grille Pour Ne Pas Avoir A Faire Une Partie Complete Avant D'Arriver A La Partie A Tester
      */
     private void preRemplissageDeLaGrillePourNePasAvoirAFaireUnePartieCompleteAvantDArriverALaPartieATester() {
         char[][] chars = {
@@ -262,10 +257,6 @@ public class Morpion implements IGame {
         grid.setGrid(chars);
     }
 
-    /**
-     *
-     * @param args
-     */
     public static void main(String[] args) {
         Morpion morpion = new Morpion();
 
