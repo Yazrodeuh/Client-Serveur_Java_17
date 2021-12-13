@@ -50,7 +50,7 @@ public class Client {
     public void start() {
 
         try {
-            Socket client = new Socket("192.168.158.166", 4000);
+            Socket client = new Socket("127.0.0.1", 4000);
 
             setIdentifiant(client);
 

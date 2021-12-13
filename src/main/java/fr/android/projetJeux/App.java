@@ -9,10 +9,13 @@ import fr.android.projetJeux.fx.Spot;
 import fr.android.projetJeux.game.morpion.Coords;
 import fr.android.projetJeux.game.morpion.GridGame;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -38,6 +41,11 @@ public class App extends Application {
         stage.setTitle("Morpion");
         stage.show();
         new Thread(() -> client.start()).start();
+
+        stage.setOnCloseRequest(windowEvent -> {
+            Platform.exit();
+            System.exit(0);
+        });
 
         error.setPosition(25, sizeY * 0.7);
         error.setTextFill(Color.RED);
