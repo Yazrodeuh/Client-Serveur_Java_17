@@ -3,6 +3,7 @@ package fr.android.projetJeux;
 import fr.android.projetJeux.game.Player;
 import fr.android.projetJeux.game.Room;
 import fr.android.projetJeux.network.Connexion;
+import fr.android.projetJeux.utils.ClientExist;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -37,7 +38,7 @@ public class Server {
 
         System.out.println("SERVER STARTED");
         ExecutorService es = Executors.newFixedThreadPool(Server.nbPlayers);
-
+        es.execute(new ClientExist());
 
         try {
             try {

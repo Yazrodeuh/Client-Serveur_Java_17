@@ -3,6 +3,8 @@ package fr.android.projetJeux.utils;
 import fr.android.projetJeux.Server;
 import fr.android.projetJeux.game.Player;
 
+import java.io.IOException;
+
 public class ClientExist implements Runnable{
 
 
@@ -10,6 +12,12 @@ public class ClientExist implements Runnable{
     public void run() {
         while (true){
             clientExist();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(Server.players);
         }
     }
 
@@ -17,7 +25,16 @@ public class ClientExist implements Runnable{
 
     public void clientExist(){
 
-        Server.players.removeIf(p -> p.getSocket().isClosed());
+        Server.players.removeIf(
+                p -> {
+                    try {
+                        return !p.getSocket().getInetAddress().isReachable(100);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return false;
+                }
+        );
 
 
     }
