@@ -1,7 +1,7 @@
-package fr.android.projetJeux.fx;
+package fr.android.projetJeux.client.fx;
 
 
-import fr.android.projetJeux.App;
+import fr.android.projetJeux.client.App;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;

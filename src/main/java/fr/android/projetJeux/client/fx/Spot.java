@@ -1,7 +1,7 @@
-package fr.android.projetJeux.fx;
+package fr.android.projetJeux.client.fx;
 
-import fr.android.projetJeux.App;
-import fr.android.projetJeux.game.morpion.Coords;
+import fr.android.projetJeux.client.App;
+import fr.android.projetJeux.server.game.morpion.Coords;
 import javafx.scene.Cursor;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;

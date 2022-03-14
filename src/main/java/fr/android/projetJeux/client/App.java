@@ -1,21 +1,19 @@
-package fr.android.projetJeux;
+package fr.android.projetJeux.client;
 
-import fr.android.projetJeux.fx.elements.GameButton;
-import fr.android.projetJeux.fx.elements.GameInput;
-import fr.android.projetJeux.fx.elements.GameLine;
-import fr.android.projetJeux.fx.elements.GameText;
-import fr.android.projetJeux.fx.Pion;
-import fr.android.projetJeux.fx.Spot;
-import fr.android.projetJeux.game.morpion.Coords;
-import fr.android.projetJeux.game.morpion.GridGame;
+import fr.android.projetJeux.client.fx.Pion;
+import fr.android.projetJeux.client.fx.Spot;
+import fr.android.projetJeux.client.fx.elements.GameButton;
+import fr.android.projetJeux.client.fx.elements.GameInput;
+import fr.android.projetJeux.client.fx.elements.GameLine;
+import fr.android.projetJeux.client.fx.elements.GameText;
+import fr.android.projetJeux.server.game.morpion.Coords;
+import fr.android.projetJeux.server.game.morpion.GridGame;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.util.Arrays;

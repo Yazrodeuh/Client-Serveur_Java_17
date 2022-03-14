@@ -1,8 +1,10 @@
-package fr.android.projetJeux.game;
+package fr.android.projetJeux.server.game;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 /**
  * Répresente le joueur
@@ -31,6 +33,15 @@ public class Player {
      * flux d'entrée
      */
     private final ObjectInputStream in;
+
+    /**
+     *
+     */
+    private PrivateKey privateKey;
+    /**
+     *
+     */
+    private PublicKey publicKey;
 
     /**
      * Constructeur
@@ -98,6 +109,9 @@ public class Player {
     public ObjectInputStream getIn() {
         return in;
     }
+
+
+
 
     /**
      * getter out

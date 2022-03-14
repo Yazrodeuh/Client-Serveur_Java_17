@@ -1,9 +1,9 @@
-package fr.android.projetJeux.network;
+package fr.android.projetJeux.server.network;
 
-import fr.android.projetJeux.Server;
-import fr.android.projetJeux.game.Player;
-import fr.android.projetJeux.game.Room;
-import fr.android.projetJeux.game.morpion.Morpion;
+import fr.android.projetJeux.server.Server;
+import fr.android.projetJeux.server.game.Player;
+import fr.android.projetJeux.server.game.Room;
+import fr.android.projetJeux.server.game.morpion.Morpion;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -62,6 +62,10 @@ public class Connexion implements Runnable {
                 for (Player p : Server.players) {
                     if (!Objects.equals(p.getName(), player.getName()) && p.getNumRoom() == -1) {
                         ArrayList<Player> gamers = new ArrayList<>();
+
+
+
+
                         gamers.add(player);
                         gamers.add(p);
                         Room room = new Room(new Morpion(), gamers);

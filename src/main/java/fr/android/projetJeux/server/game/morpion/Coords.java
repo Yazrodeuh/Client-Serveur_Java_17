@@ -1,4 +1,4 @@
-package fr.android.projetJeux.game.morpion;
+package fr.android.projetJeux.server.game.morpion;
 
 import java.io.Serializable;
 import java.util.Objects;

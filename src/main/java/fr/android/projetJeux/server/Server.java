@@ -1,8 +1,8 @@
-package fr.android.projetJeux;
+package fr.android.projetJeux.server;
 
-import fr.android.projetJeux.game.Player;
-import fr.android.projetJeux.game.Room;
-import fr.android.projetJeux.network.Connexion;
+import fr.android.projetJeux.server.game.Player;
+import fr.android.projetJeux.server.game.Room;
+import fr.android.projetJeux.server.network.Connexion;
 import fr.android.projetJeux.utils.ClientExist;
 
 import java.io.IOException;

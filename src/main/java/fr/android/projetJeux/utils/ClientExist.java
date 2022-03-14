@@ -1,7 +1,6 @@
 package fr.android.projetJeux.utils;
 
-import fr.android.projetJeux.Server;
-import fr.android.projetJeux.game.Player;
+import fr.android.projetJeux.server.Server;
 
 import java.io.IOException;
 

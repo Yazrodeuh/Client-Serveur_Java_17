@@ -1,7 +1,6 @@
-package fr.android.projetJeux;
+package fr.android.projetJeux.client;
 
-import fr.android.projetJeux.game.morpion.Coords;
-import fr.android.projetJeux.game.morpion.GridGame;
+import fr.android.projetJeux.server.game.morpion.GridGame;
 import fr.android.projetJeux.utils.Code;
 import javafx.application.Platform;
 

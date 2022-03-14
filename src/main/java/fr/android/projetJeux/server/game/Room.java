@@ -1,4 +1,4 @@
-package fr.android.projetJeux.game;
+package fr.android.projetJeux.server.game;
 
 import java.util.ArrayList;
 

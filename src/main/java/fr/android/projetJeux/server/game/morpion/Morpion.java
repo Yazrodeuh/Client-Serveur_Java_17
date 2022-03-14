@@ -1,12 +1,10 @@
-package fr.android.projetJeux.game.morpion;
+package fr.android.projetJeux.server.game.morpion;
 
-import fr.android.projetJeux.game.IGame;
-import fr.android.projetJeux.game.Player;
+import fr.android.projetJeux.server.game.IGame;
+import fr.android.projetJeux.server.game.Player;
 import fr.android.projetJeux.utils.Code;
 
 import java.io.IOException;
-import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;

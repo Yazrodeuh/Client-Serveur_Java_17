@@ -1,4 +1,4 @@
-package fr.android.projetJeux.fx.elements;
+package fr.android.projetJeux.client.fx.elements;
 
 import javafx.scene.control.TextField;
 
