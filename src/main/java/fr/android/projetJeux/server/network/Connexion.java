@@ -5,6 +5,9 @@ import fr.android.projetJeux.server.game.Player;
 import fr.android.projetJeux.server.game.Room;
 import fr.android.projetJeux.server.game.morpion.Morpion;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -58,6 +61,7 @@ public class Connexion implements Runnable {
                 out.writeObject("SERVER FULL");
             } else {
                 Player player = newPlayer();
+                player.setPublicKey((PublicKey) in.readObject());
 
                 for (Player p : Server.players) {
                     if (!Objects.equals(p.getName(), player.getName()) && p.getNumRoom() == -1) {
@@ -83,6 +87,8 @@ public class Connexion implements Runnable {
 
 
         } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
             e.printStackTrace();
         }
 

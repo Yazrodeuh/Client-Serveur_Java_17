@@ -27,7 +27,8 @@ public class Room implements Runnable {
 
     /**
      * Constructeur
-     * @param game jeu
+     *
+     * @param game        jeu
      * @param roomPlayers liste des joueurs de la Room
      */
     public Room(IGame game, ArrayList<Player> roomPlayers) {

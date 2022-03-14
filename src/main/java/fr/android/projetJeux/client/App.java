@@ -6,6 +6,7 @@ import fr.android.projetJeux.client.fx.elements.GameButton;
 import fr.android.projetJeux.client.fx.elements.GameInput;
 import fr.android.projetJeux.client.fx.elements.GameLine;
 import fr.android.projetJeux.client.fx.elements.GameText;
+import fr.android.projetJeux.security.SecurityDES;
 import fr.android.projetJeux.server.game.morpion.Coords;
 import fr.android.projetJeux.server.game.morpion.GridGame;
 import javafx.application.Application;
@@ -15,7 +16,13 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
+import java.io.Serializable;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 public class App extends Application {
@@ -60,12 +67,13 @@ public class App extends Application {
      */
     private static final GameText error = new GameText();
     /**
-     *  liste des lignes de victoire
+     * liste des lignes de victoire
      */
     private static final GameLine[] lineList = new GameLine[8];
 
     /**
      * démarrage de l'app
+     *
      * @param stage stage
      */
     @Override
@@ -132,6 +140,7 @@ public class App extends Application {
 
     /**
      * affiche un message d'erreur
+     *
      * @param message message d'erreur
      */
 
@@ -148,6 +157,7 @@ public class App extends Application {
 
     /**
      * créée l'affichage de la grille avec les infos en parametres
+     *
      * @param g grille
      */
     public static void setGrid(GridGame g) {
@@ -210,25 +220,24 @@ public class App extends Application {
 
     /**
      * envoie les coordonnées de la case sélectionée
+     *
      * @param c coordonnées
      * @throws IOException en case de problème d'E/S
      */
-
-    public static void sendCoords(Coords c) throws IOException {
+    public static void sendCoords(Coords c) throws IOException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
 
         if (grid.isValid(c)) {
             if (grid.getNamePlayer().equals(client.getPseudo())) {
-                client.getOut().writeObject(c);
+                client.getOut().writeObject(SecurityDES.encode(SerializationUtils.serialize(c), client.getKey()));
             }
-
         } else {
             System.out.println("déjà été joué");
         }
-
     }
 
     /**
      * affiche une ligne sur la ligne gagnante
+     *
      * @param index num de la ligne gagnante
      */
     public static void setWinner(int index) {

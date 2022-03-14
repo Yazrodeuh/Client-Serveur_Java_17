@@ -27,12 +27,12 @@ public class Player {
     /**
      * flux de sortie
      */
-    private final ObjectOutputStream out;
+    public final ObjectOutputStream out;
 
     /**
      * flux d'entrée
      */
-    private final ObjectInputStream in;
+    public final ObjectInputStream in;
 
     /**
      *
@@ -100,25 +100,6 @@ public class Player {
      */
     public int getNumRoom() {
         return numRoom;
-    }
-
-    /**
-     * getter In
-     * @return in
-     */
-    public ObjectInputStream getIn() {
-        return in;
-    }
-
-
-
-
-    /**
-     * getter out
-     * @return out
-     */
-    public ObjectOutputStream getOut() {
-        return out;
     }
 
     @Override

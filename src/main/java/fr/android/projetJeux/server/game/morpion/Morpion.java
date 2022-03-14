@@ -1,15 +1,29 @@
 package fr.android.projetJeux.server.game.morpion;
 
+import fr.android.projetJeux.security.SecurityDES;
 import fr.android.projetJeux.server.game.IGame;
 import fr.android.projetJeux.server.game.Player;
 import fr.android.projetJeux.utils.Code;
+import org.apache.commons.lang3.SerializationUtils;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
 public class Morpion implements IGame {
+
+    /**
+     *
+     */
+    private final Key key;
+
     /**
      * Liste des joueurs connectés.
      */
@@ -43,33 +57,38 @@ public class Morpion implements IGame {
     /**
      * Contructeur
      */
-    public Morpion() {
+    public Morpion(Key key) {
         grid = new GridGame();
         //preRemplissageDeLaGrillePourNePasAvoirAFaireUnePartieCompleteAvantDArriverALaPartieATester();
         pion = new HashMap<>(2);
+        this.key = key;
     }
 
 
     /**
      * Envoie les infos au client
+     *
      * @param code Code qui indique au client la nature du message
      * @throws IOException en cas de problème d'entrée / sortie
      */
-    private void sendInfos(String code) throws IOException {
+    private void sendInfos(String code) throws IOException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         for (Player p : players) {
-            p.getOut().writeObject(code +
-                    Code.SEPARATOR.getCodeValue() +
-                    grid +
-                    Code.SEPARATOR.getCodeValue() +
-                    currentPlayer.getName() +
-                    Code.SEPARATOR.getCodeValue() +
-                    winline
+            p.out.writeObject(
+                    SecurityDES.encode(code +
+                            Code.SEPARATOR.getCodeValue() +
+                            grid +
+                            Code.SEPARATOR.getCodeValue() +
+                            currentPlayer.getName() +
+                            Code.SEPARATOR.getCodeValue() +
+                            winline, key
+                    )
             );
         }
     }
 
     /**
      * Démmare le jeu
+     *
      * @param gamers liste des joueurs de la partie
      */
     @Override
@@ -92,7 +111,7 @@ public class Morpion implements IGame {
 
             while (!finished) {
                 sendInfos(Code.INFOS.getCodeValue());
-                Coords coords = (Coords) currentPlayer.getIn().readObject();
+                Coords coords = SerializationUtils.deserialize(SecurityDES.decode((byte[]) currentPlayer.in.readObject(), key));
                 grid.setMovement(coords, pion.get(currentPlayer));
                 if (win(coords)) {
                     stop("win");
@@ -103,13 +122,14 @@ public class Morpion implements IGame {
                     nextPlayer();
                 }
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException | NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException | BadPaddingException | InvalidKeyException e) {
             e.printStackTrace();
         }
     }
 
     /**
      * Récupère le joueur suivant
+     *
      * @return Joueur suivant
      */
     private Player getNextPlayer() {
@@ -126,11 +146,12 @@ public class Morpion implements IGame {
 
     /**
      * Arrête le jeu et envoie la grille ainsi que le pseudo du gagnant
+     *
      * @param status win ou nul, indique s'il y a un gagnant ou si le match est nul pour envoi l'info correspondante
      * @throws IOException en cas de problème d'E/S
      */
     @Override
-    public void stop(String status) throws IOException {
+    public void stop(String status) throws IOException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         finished = true;
         sendInfos(Objects.equals(status, "nul") ? Code.NUL.getCodeValue() : Code.WINNER.getCodeValue());
 
@@ -138,6 +159,7 @@ public class Morpion implements IGame {
 
     /**
      * Vérifie si le match est nul
+     *
      * @return true si match null, false sinon
      */
     private boolean matchNul() {
@@ -155,6 +177,7 @@ public class Morpion implements IGame {
 
     /**
      * Vérifie s'il y a un gagnant
+     *
      * @param coords Cooordonnée de la dernière case jouée
      * @return true si c'est gagné, false sinon
      */
@@ -164,6 +187,7 @@ public class Morpion implements IGame {
 
     /**
      * Vérification des colonnnes
+     *
      * @param j num de la colonne
      * @return true si c'est gagné, false sinon
      */
@@ -179,6 +203,7 @@ public class Morpion implements IGame {
 
     /**
      * Vérification des lignes
+     *
      * @param i num de la ligne
      * @return true si c'est gagné, false sinon
      */
@@ -195,6 +220,7 @@ public class Morpion implements IGame {
 
     /**
      * Vérification de la diagonale droite
+     *
      * @return true si c'est gagné, false sinon
      */
     private boolean winRD() {
@@ -210,6 +236,7 @@ public class Morpion implements IGame {
 
     /**
      * Vérification de la diagonale gauche
+     *
      * @return true si c'est gagné, false sinon
      */
     private boolean winLD() {
@@ -225,6 +252,7 @@ public class Morpion implements IGame {
 
     /**
      * Vérification des diagonales
+     *
      * @return true si c'est gagné, false sinon
      */
     private boolean winD(Coords coords) {
@@ -257,16 +285,16 @@ public class Morpion implements IGame {
         grid.setGrid(chars);
     }
 
-    public static void main(String[] args) {
-        Morpion morpion = new Morpion();
-
-        System.out.println(morpion.grid);
-
-        morpion.grid.getGrid()[1][1] = 'Z';
-
-        System.out.println(morpion.win(new Coords(1, 1)));
-        System.out.println(morpion.grid);
-
-    }
+//    public static void main(String[] args) {
+//        Morpion morpion = new Morpion();
+//
+//        System.out.println(morpion.grid);
+//
+//        morpion.grid.getGrid()[1][1] = 'Z';
+//
+//        System.out.println(morpion.win(new Coords(1, 1)));
+//        System.out.println(morpion.grid);
+//
+//    }
 
 }
