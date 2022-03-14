@@ -1,5 +1,7 @@
 package fr.android.projetJeux.client;
 
+import fr.android.projetJeux.security.SecurityDES;
+import fr.android.projetJeux.security.SecurityRSA;
 import fr.android.projetJeux.server.game.morpion.GridGame;
 import fr.android.projetJeux.utils.Code;
 import javafx.application.Platform;
@@ -8,6 +10,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.security.Key;
+import java.security.KeyPair;
 import java.util.Objects;
 
 public class Client {
@@ -27,6 +31,11 @@ public class Client {
      */
     private String pseudo;
 
+    /**
+     *
+     */
+    private Key key;
+
 
     /**
      * getter out
@@ -43,9 +52,17 @@ public class Client {
     public void start() {
 
         try {
-            Socket client = new Socket("localhost", 4000);
+            Socket client = new Socket("localhost", 4001);
 
+            out = new ObjectOutputStream(client.getOutputStream());
+            in = new ObjectInputStream(client.getInputStream());
             setIdentifiant(client);
+
+            KeyPair keys = SecurityRSA.generateKeys();
+            out.writeObject(keys.getPublic());
+            key = SecurityRSA.decipherKey((byte[]) in.readObject(), keys.getPrivate());
+
+            System.out.println(key);
 
             boolean finished = false;
 

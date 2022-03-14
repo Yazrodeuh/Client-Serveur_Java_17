@@ -37,11 +37,15 @@ public class Player {
     /**
      *
      */
-    private PrivateKey privateKey;
-    /**
-     *
-     */
     private PublicKey publicKey;
+
+    public void setPublicKey(PublicKey publicKey) {
+        this.publicKey = publicKey;
+    }
+
+    public PublicKey getPublicKey() {
+        return publicKey;
+    }
 
     /**
      * Constructeur

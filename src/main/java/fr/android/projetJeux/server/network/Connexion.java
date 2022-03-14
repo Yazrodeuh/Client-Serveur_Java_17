@@ -1,5 +1,7 @@
 package fr.android.projetJeux.server.network;
 
+import fr.android.projetJeux.security.SecurityDES;
+import fr.android.projetJeux.security.SecurityRSA;
 import fr.android.projetJeux.server.Server;
 import fr.android.projetJeux.server.game.Player;
 import fr.android.projetJeux.server.game.Room;
@@ -12,6 +14,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
@@ -51,6 +57,16 @@ public class Connexion implements Runnable {
             e.printStackTrace();
         }
     }
+    
+    
+    public Key addSecurityLayer(Player p1, Player p2) throws NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, IOException {
+        Key des = SecurityDES.generateKey();
+        byte[] rsaP1 = SecurityRSA.cipherKey(des,p1.getPublicKey());
+        p1.out.writeObject(rsaP1);
+        byte[] rsaP2 = SecurityRSA.cipherKey(des,p2.getPublicKey());
+        p2.out.writeObject(rsaP2);
+        return des;
+    }
 
 
     @Override
@@ -66,13 +82,15 @@ public class Connexion implements Runnable {
                 for (Player p : Server.players) {
                     if (!Objects.equals(p.getName(), player.getName()) && p.getNumRoom() == -1) {
                         ArrayList<Player> gamers = new ArrayList<>();
+                        
+                        Key key = addSecurityLayer(player,p);
 
-
-
+                        System.out.println(key);
 
                         gamers.add(player);
                         gamers.add(p);
-                        Room room = new Room(new Morpion(), gamers);
+                        Room room = new Room(new Morpion(key), gamers);
+                        room.setDesKey(key);
                         Server.rooms.add(room);
                         System.out.println("STARTING ROOM with: " + gamers);
                         ExecutorService es = Executors.newSingleThreadExecutor();

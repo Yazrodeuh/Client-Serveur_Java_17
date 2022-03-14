@@ -24,6 +24,7 @@ import java.io.Serializable;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import org.apache.commons.lang3.SerializationUtils;
 
 public class App extends Application {
     /**

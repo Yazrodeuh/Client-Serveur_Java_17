@@ -1,5 +1,6 @@
 package fr.android.projetJeux.server.game;
 
+import java.security.Key;
 import java.util.ArrayList;
 
 /**
@@ -25,6 +26,8 @@ public class Room implements Runnable {
      */
     private final ArrayList<Player> roomPlayers;
 
+    private Key desKey;
+
     /**
      * Constructeur
      *
@@ -41,6 +44,14 @@ public class Room implements Runnable {
             p.setNumRoom(id);
         }
 
+    }
+
+    public void setDesKey(Key desKey) {
+        this.desKey = desKey;
+    }
+
+    public Key getDesKey() {
+        return desKey;
     }
 
     @Override
