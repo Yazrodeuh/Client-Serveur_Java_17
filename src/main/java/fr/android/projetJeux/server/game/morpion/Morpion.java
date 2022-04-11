@@ -73,16 +73,16 @@ public class Morpion implements IGame {
      */
     private void sendInfos(String code) throws IOException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         for (Player p : players) {
-            p.out.writeObject(
-                    SecurityDES.encode(code +
-                            Code.SEPARATOR.getCodeValue() +
-                            grid +
-                            Code.SEPARATOR.getCodeValue() +
-                            currentPlayer.getName() +
-                            Code.SEPARATOR.getCodeValue() +
-                            winline, key
-                    )
+            byte[] message = SecurityDES.encode(code +
+                    Code.SEPARATOR.getCodeValue() +
+                    grid +
+                    Code.SEPARATOR.getCodeValue() +
+                    currentPlayer.getName() +
+                    Code.SEPARATOR.getCodeValue() +
+                    winline, key
             );
+            p.out.writeObject(message);
+            System.out.println("length: " + message.length);
         }
     }
 

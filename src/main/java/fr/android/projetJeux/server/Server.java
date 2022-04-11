@@ -38,7 +38,7 @@ public class Server {
 
         System.out.println("SERVER STARTED");
         ExecutorService es = Executors.newFixedThreadPool(Server.nbPlayers);
-        es.execute(new ClientExist());
+//        es.execute(new ClientExist());
 
         try {
             try {
